@@ -1,0 +1,57 @@
+@startuml
+package fr.shazilgerard.javaproject.datamodel {
+	class PatientIdentity{
+		- String name
+		- String address
+		- Doctor
+		- Room
+		- UUID ID
+		
+		getName()
+		get...()
+	}
+	class User{
+		- String name
+		- String EncryptedPassword
+		- rights
+		
+		getName()
+		get()..
+	}
+}
+package fr.shazilgerard.javaproject.dao {
+
+	interface IdentityDaoInterface{
+		create()
+		getID()
+		getAll()
+		modify()
+		delete()
+	}
+	interface IDaoCreate{
+		create()
+		delete()
+	}
+	class JDBCDao{
+		create()
+		getID()
+		getAll()
+		modify()
+		delete()
+	}
+	JDBCDao --> PatientIdentity
+	JDBCDao --|> IdentityDaoInterface
+	JDBCDao --|> IDaoCreate
+}
+
+package fr.shazilgerard.javaproject.authentication {
+	class Authenticate{
+		login(user, password)
+	}
+	
+	Authenticate --> User
+	
+}
+
+
+@enduml
