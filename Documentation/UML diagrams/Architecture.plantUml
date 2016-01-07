@@ -12,46 +12,71 @@ package fr.shazilgerard.javaproject.datamodel {
 	}
 	class User{
 		- String name
-		- String EncryptedPassword
-		- rights
+		- String encryptedPassword
+		- Rights rights
 		
 		getName()
 		get()..
 	}
 }
-package fr.shazilgerard.javaproject.dao {
-
-	interface IdentityDaoInterface{
-		create()
-		getID()
-		getAll()
-		modify()
-		delete()
+package fr.shazilgerard.javaproject.view {
+	class GUIView {
+	 static void main()
 	}
-	interface IDaoCreate{
-		create()
-		delete()
-	}
-	class JDBCDao{
-		create()
-		getID()
-		getAll()
-		modify()
-		delete()
-	}
-	JDBCDao --> PatientIdentity
-	JDBCDao --|> IdentityDaoInterface
-	JDBCDao --|> IDaoCreate
 }
-
-package fr.shazilgerard.javaproject.authentication {
+package fr.shazilgerard.javaproject.controller {
+	class IdentityController{
+		IDAOManagement daoManagement
+		IIdentityDAO identityDao
+		IdentityController()
+		login()
+		logout()
+	}
 	class Authenticate{
 		login(user, password)
+		addUser()
+		deleteUser()
+		getRights()
 	}
 	
-	Authenticate --> User
+	IdentityController -- GUIView
+	IdentityController -- PatientIdentity
 	
+	Authenticate --> User
+	Authenticate <-- IdentityController
 }
+package fr.shazilgerard.javaproject.helper {
 
+	interface IMatcher<T>{
+		match()
+	}
+	class NameMatcher --|> IMatcher
+	class IDMatcher --|> IMatcher
+}
+package fr.shazilgerard.javaproject.dao {
+	interface IIdentityDAO{
+		getIdentity(IMatcher<PatientIdentity> matcher)
+		Identity getAll(void)
+		modify(PatientIdentity id)
+		delete(PatientIdentity id)
+	}
+	interface IDAOManagement{
+		createDAO()
+		deleteDAO()
+	}
+	class JDBCDao{
+		createDAO()
+		deleteDAO()
+		getIdentity(IMatcher<PatientIdentity> matcher)
+		getAll()
+		modify(PatientIdentity)
+		delete(PatientIdentity)
+	}
+	JDBCDao --|> IIdentityDAO
+	JDBCDao --|> IDAOManagement
+	IIdentityDAO --> IMatcher
+	IdentityController --> IDAOManagement
+	IdentityController --> IIdentityDAO
+}
 
 @enduml
