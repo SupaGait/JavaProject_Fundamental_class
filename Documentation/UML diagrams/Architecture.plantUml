@@ -7,43 +7,98 @@ package fr.shazilgerard.javaproject.datamodel {
 		- Room
 		- UUID ID
 		
-		getName()
-		get...()
+		+ getName()
+		+ get...()
+		+ set...()
 	}
 	class User{
 		- String name
 		- String encryptedPassword
 		- Rights rights
 		
-		getName()
-		get()..
+		+ getName()
+		+ get()..
+		+ set...()
 	}
 }
 package fr.shazilgerard.javaproject.view {
 	class GUIView {
-	 static void main()
+		GUIView(IdentityController controller)
+	 	{static} void main()
 	}
+	
+	
 }
 package fr.shazilgerard.javaproject.controller {
 	class IdentityController{
-		IDAOManagement daoManagement
-		IIdentityDAO identityDao
-		IdentityController()
-		login()
-		logout()
+		- IDAOManagement patientDaoManagement
+		- IDAOManagement userDaoManagement
+		- IDataDAO<PatientIdentity> identityDao
+		- IDataDAO<User> userDao
+		- User currentUser
+		- UserManagement userManagement
+		
+		+ IdentityController()
+		+ getCurrentUserName()
+		+ UserManagement getUserManagement()
+		+ login(String name, String password)
+		+ logout()
 	}
-	class Authenticate{
-		login(user, password)
-		addUser()
-		deleteUser()
-		getRights()
+	class UserManagement{
+		- IDataDAO<User> userDao
+		
+		+ UserManagement(IDataDAO<User> userDao)
+		+ User validate(user, password)
+		+ add(User user)
+		+ delete(User user)
+		+ modify(User user)
+		+ getRights(User user)
 	}
-	
-	IdentityController -- GUIView
-	IdentityController -- PatientIdentity
-	
-	Authenticate --> User
-	Authenticate <-- IdentityController
+	class PatientManagement{
+		- UserManagement userManagement
+		- IDataDAO<PatientIdentity> patientDao
+		
+		+ PatientMangament(UserManagement userManagement, 
+		IDataDAO<PatientIdentity> patientDao)
+		+ add(PatientIdentity patient)
+		+ delete(PatientIdentity patient)
+		+ modify(PatientIdentity patient)
+		+ getAll()
+	}
+}
+
+package fr.shazilgerard.javaproject.dao {
+	interface IDataDAO<DataType>{
+		+ List<DataType> get(IMatcher<DataType> matcher)
+		+ DataType getAll(void)
+		+ modify(DataType data)
+		+ delete(DataType data)
+	}
+	interface IDAOManagement{
+		+ createDAO()
+		+ deleteDAO()
+	}
+	class JDBCDAO <<abstract>>{
+		+ JDBCDAO()
+		+ createDAO()
+		+ deleteDAO()
+		..
+		+ List<DataType> get(IMatcher<DataType> matcher)
+		+ DataType getAll(void)
+		+ modify(DataType data)
+		+ delete(DataType data)
+		..
+		# {abstract} readDataFields()
+		# {abstract} writeDataFields()
+	}
+	class UserJDBCDAO{
+		# readDataFields()
+		# writeDataFields()
+	}
+	class PatientJDBCDAO{
+		# readDataFields()
+		# writeDataFields()
+	}
 }
 package fr.shazilgerard.javaproject.helper {
 
@@ -53,30 +108,22 @@ package fr.shazilgerard.javaproject.helper {
 	class NameMatcher --|> IMatcher
 	class IDMatcher --|> IMatcher
 }
-package fr.shazilgerard.javaproject.dao {
-	interface IIdentityDAO{
-		getIdentity(IMatcher<PatientIdentity> matcher)
-		Identity getAll(void)
-		modify(PatientIdentity id)
-		delete(PatientIdentity id)
-	}
-	interface IDAOManagement{
-		createDAO()
-		deleteDAO()
-	}
-	class JDBCDao{
-		createDAO()
-		deleteDAO()
-		getIdentity(IMatcher<PatientIdentity> matcher)
-		getAll()
-		modify(PatientIdentity)
-		delete(PatientIdentity)
-	}
-	JDBCDao --|> IIdentityDAO
-	JDBCDao --|> IDAOManagement
-	IIdentityDAO --> IMatcher
-	IdentityController --> IDAOManagement
-	IdentityController --> IIdentityDAO
+package fr.shazilgerard.javaproject.exceptions {
+	class SomeFunctionalExceptions
 }
+
+IdentityController *-- UserManagement
+IdentityController *-- PatientManagement
+UserManagement -* PatientManagement
+	
+GUIView *-- IdentityController
+
+UserManagement --> User
+PatientManagement --> PatientIdentity
+	
+UserJDBCDAO --|> JDBCDAO
+PatientJDBCDAO --|> JDBCDAO
+JDBCDAO --|> IDataDAO
+JDBCDAO --|> IDAOManagement
 
 @enduml
