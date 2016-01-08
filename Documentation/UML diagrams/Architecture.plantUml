@@ -1,6 +1,6 @@
 @startuml
-package fr.shazilgerard.javaproject.datamodel {
-	class PatientIdentity{
+package fr.shazilgerard.findmypatient.datamodel {
+	class Patient{
 		- String name
 		- String address
 		- Doctor
@@ -21,26 +21,24 @@ package fr.shazilgerard.javaproject.datamodel {
 		+ set...()
 	}
 }
-package fr.shazilgerard.javaproject.view {
+package fr.shazilgerard.findmypatient.view {
 	class GUIView {
 		GUIView(IdentityController controller)
 	 	{static} void main()
 	}
-	
-	
 }
-package fr.shazilgerard.javaproject.controller {
+package fr.shazilgerard.findmypatient.controller {
 	class IdentityController{
 		- IDAOManagement patientDaoManagement
 		- IDAOManagement userDaoManagement
-		- IDataDAO<PatientIdentity> identityDao
-		- IDataDAO<User> userDao
 		- User currentUser
 		- UserManagement userManagement
+		- Settings settings
 		
 		+ IdentityController()
 		+ getCurrentUserName()
 		+ UserManagement getUserManagement()
+		+ PatientMangement getPatientManagement()
 		+ login(String name, String password)
 		+ logout()
 	}
@@ -56,18 +54,36 @@ package fr.shazilgerard.javaproject.controller {
 	}
 	class PatientManagement{
 		- UserManagement userManagement
-		- IDataDAO<PatientIdentity> patientDao
+		- IDataDAO<Patient> patientDao
 		
 		+ PatientMangament(UserManagement userManagement, 
-		IDataDAO<PatientIdentity> patientDao)
-		+ add(PatientIdentity patient)
-		+ delete(PatientIdentity patient)
-		+ modify(PatientIdentity patient)
+		   IDataDAO<Patient> patientDao)
+		+ add(Patient patient)
+		+ delete(Patient patient)
+		+ modify(Patient patient)
 		+ getAll()
 	}
 }
 
-package fr.shazilgerard.javaproject.dao {
+package fr.shazilgerard.findmypatient.config {
+	class Settings {
+		- final long serialVersionUID = 0L
+		- String DataBaseName
+		- String DataBaseEncryptedPass
+		- Etc..
+		
+		+ getAndSet()
+	}
+	class Configuration {
+		+ void read()
+		+ void save()
+		+ Settings get()
+	}
+	Settings -() Serializable 
+	Configuration *- Settings
+}
+
+package fr.shazilgerard.findmypatient.dao {
 	interface IDataDAO<DataType>{
 		+ List<DataType> get(IMatcher<DataType> matcher)
 		+ DataType getAll(void)
@@ -78,7 +94,9 @@ package fr.shazilgerard.javaproject.dao {
 		+ createDAO()
 		+ deleteDAO()
 	}
-	class JDBCDAO <<abstract>>{
+	class DAOCreator{
+	}
+	class JDBCDAO<DataType> <<abstract>>{
 		+ JDBCDAO()
 		+ createDAO()
 		+ deleteDAO()
@@ -92,15 +110,17 @@ package fr.shazilgerard.javaproject.dao {
 		# {abstract} writeDataFields()
 	}
 	class UserJDBCDAO{
+		+ UserJDBCDAO(String DBinfo..)
 		# readDataFields()
 		# writeDataFields()
 	}
 	class PatientJDBCDAO{
+		+ PatientJDBCDAO(String DBinfo..)
 		# readDataFields()
 		# writeDataFields()
 	}
 }
-package fr.shazilgerard.javaproject.helper {
+package fr.shazilgerard.findmypatient.helper {
 
 	interface IMatcher<T>{
 		match()
@@ -108,18 +128,20 @@ package fr.shazilgerard.javaproject.helper {
 	class NameMatcher --|> IMatcher
 	class IDMatcher --|> IMatcher
 }
-package fr.shazilgerard.javaproject.exceptions {
+package fr.shazilgerard.findmypatient.exceptions {
 	class SomeFunctionalExceptions
 }
 
 IdentityController *-- UserManagement
 IdentityController *-- PatientManagement
+Settings -* IdentityController
 UserManagement -* PatientManagement
 	
 GUIView *-- IdentityController
 
 UserManagement --> User
-PatientManagement --> PatientIdentity
+PatientManagement --> Patient
+
 	
 UserJDBCDAO --|> JDBCDAO
 PatientJDBCDAO --|> JDBCDAO
