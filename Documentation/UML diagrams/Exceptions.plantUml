@@ -1,0 +1,10 @@
+@startuml
+
+package fr.shazilgerard.findmypatient.exceptions {
+	class SomeFunctionalExceptions
+	class UpdateException
+	class AuthenticationException
+	class InsufficientUserRightsException
+}
+
+@enduml
