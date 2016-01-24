@@ -8,5 +8,14 @@ package fr.shazilgerard.findmypatient.dao;
  *
  */
 public interface IDAOManagement {
+	/**
+	 * Connect the DAO to the back-end
+	 */
+	public void connect();
+	
+	/**
+	 * Disconnect the DAO from the back-end.
+	 */
+	public void disconnect();
 
 }
