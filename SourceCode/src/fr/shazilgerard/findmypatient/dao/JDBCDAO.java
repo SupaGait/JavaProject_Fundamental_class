@@ -62,6 +62,7 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 			
 		} 
 		catch (ClassNotFoundException | SQLException e) {
+			// TODO: create specialized exception DB connection exception.
 			e.printStackTrace();
 		}
 	}

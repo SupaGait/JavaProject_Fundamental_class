@@ -5,7 +5,7 @@ package fr.shazilgerard.findmypatient.controller;
 
 import java.awt.EventQueue;
 
-import fr.shazilgerard.findmypatient.view.PatientOverview;
+import fr.shazilgerard.findmypatient.view.PatientOverviewView;
 
 /**
  * @author Gerard
@@ -26,7 +26,7 @@ public class main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PatientOverview frame = new PatientOverview(controller);
+					PatientOverviewView frame = new PatientOverviewView(controller);
 					frame.setVisible(true);
 					
 					System.out.println("Program running");

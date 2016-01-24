@@ -31,7 +31,7 @@ import java.awt.Insets;
  * @author Gerard
  *
  */
-public class PatientOverview extends JFrame implements ActionListener
+public class PatientOverviewView extends JFrame implements ActionListener
 {
 	
 	IdentityController controller; // TODO: Create interface?
@@ -42,13 +42,16 @@ public class PatientOverview extends JFrame implements ActionListener
 	private JTextField txtPassword;
 	
 	private JButton btnListAllPatients;
+	private JButton btnAddNewPatient;
 	private PatientOverviewTableModel modelPatientOverview; 
+	
+	private PatientAddView patientAddView;
 
 	/**
 	 * Create the frame.
 	 * @param identityController 
 	 */
-	public PatientOverview(IdentityController identityController) 
+	public PatientOverviewView(IdentityController identityController) 
 	{
 		this.controller = identityController;
 		
@@ -139,6 +142,10 @@ public class PatientOverview extends JFrame implements ActionListener
 		panelCommands.add(btnListAllPatients);
 		panelCommands.add(btnSearch);
 		
+		this.btnAddNewPatient = new JButton("Add new patient");
+		this.btnAddNewPatient.addActionListener(this);
+		panelCommands.add(this.btnAddNewPatient);
+		
 		this.modelPatientOverview = new PatientOverviewTableModel();
 		
 		JPanel panelData = new JPanel();
@@ -167,6 +174,13 @@ public class PatientOverview extends JFrame implements ActionListener
 			modelPatientOverview.setPatients(allPatients);
 			
 		}
-		
+		else if(source.equals(btnAddNewPatient))
+		{
+			if(patientAddView == null)
+			{
+				patientAddView = new PatientAddView(this.controller);
+			}
+			patientAddView.setVisible(true);
+		}
 	}
 }

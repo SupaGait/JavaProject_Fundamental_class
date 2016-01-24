@@ -3,6 +3,8 @@
  */
 package fr.shazilgerard.findmypatient.datamodel;
 
+import java.util.UUID;
+
 /**
  * @author Gerard
  *
@@ -12,7 +14,7 @@ public class Patient {
 	private String id;
 	private String room;
 	
-	public Patient(String name, String id, String room)
+	public Patient(String name, String room)
 	{
 		this.name = name;
 		this.id = id;
@@ -38,13 +40,6 @@ public class Patient {
 	 */
 	public String getId() {
 		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	/**

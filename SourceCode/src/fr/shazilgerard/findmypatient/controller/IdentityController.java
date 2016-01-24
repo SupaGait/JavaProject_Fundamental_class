@@ -9,7 +9,7 @@ import fr.shazilgerard.findmypatient.dao.PatientJDBCDAO;
 import fr.shazilgerard.findmypatient.dao.UserJDBCDAO;
 import fr.shazilgerard.findmypatient.datamodel.PatientManagement;
 import fr.shazilgerard.findmypatient.datamodel.UserManagement;
-import fr.shazilgerard.findmypatient.view.PatientOverview;
+import fr.shazilgerard.findmypatient.view.PatientOverviewView;
 
 /**
  * @author Gerard
@@ -30,7 +30,7 @@ public class IdentityController {
 	private PatientJDBCDAO patientJDBCDAO;
 	private UserJDBCDAO userJDBCDAO;
 	
-	private PatientOverview patientGUI; // TODO: Interface?
+	private PatientOverviewView patientGUI; // TODO: Interface?
 	
 	public IdentityController()
 	{

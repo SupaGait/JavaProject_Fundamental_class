@@ -45,7 +45,7 @@ public class ProtoTypeTesting {
 		patientDAO.connect();
 		
 		String newPatientName = "NewlyAddedPatient";
-		Patient patientToAdd = new Patient(newPatientName, "", "");
+		Patient patientToAdd = new Patient(newPatientName, "");
 		patientDAO.create(patientToAdd);
 		
 		printPatients( patientDAO.readAll() );
@@ -59,7 +59,7 @@ public class ProtoTypeTesting {
 		patientDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
 		patientDAO.connect();
 		
-		Patient patientToSearch = new Patient("Gerard", "", "");
+		Patient patientToSearch = new Patient("Gerard", "");
 		MatchPatientName matcher = new MatchPatientName();
 		List<Patient> patientsMatched = patientDAO.search(patientToSearch, matcher);
 		

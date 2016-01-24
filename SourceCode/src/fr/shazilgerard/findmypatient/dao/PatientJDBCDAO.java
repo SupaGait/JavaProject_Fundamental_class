@@ -29,10 +29,9 @@ public class PatientJDBCDAO extends JDBCDAO<Patient> {
 		// Iterate through the results and add to list
 		while (rs.next()) {
 			String name = rs.getString("NAME");
-			String id = rs.getString("ID");
 			String room = rs.getString("ROOM");
 
-			Patient patient = new Patient(name, id, room);
+			Patient patient = new Patient(name, room);
 			patientList.add(patient);
 		}
 		
@@ -41,7 +40,7 @@ public class PatientJDBCDAO extends JDBCDAO<Patient> {
 	
 	protected String getInsertString(Patient patient)
 	{
-		String queryStatement = "(NAME, ID, ROOM) VALUES('" +patient.getName()+"', '"+patient.getId()+"', '"+patient.getRoom()+"')";
+		String queryStatement = "(NAME, ROOM) VALUES('" +patient.getName()+"', '"+patient.getRoom()+"')";
 		return queryStatement;
 	}
 }
