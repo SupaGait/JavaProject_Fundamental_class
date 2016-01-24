@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import fr.shazilgerard.findmypatient.datamodel.Patient;
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
 
 /**
@@ -26,8 +27,18 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 	private String userName;
 	private String password;
 	
-	protected abstract void readAllQuery(Connection connection, List<DataType> dataResult) throws SQLException;
+	private final String DBTableName; 
+	protected abstract List<DataType> parseQueryResultSet(ResultSet resultSet) throws SQLException;
 	protected abstract void writeDataField();
+	
+	
+	/**
+	 * @param DBTableName name of the main table in the DB containing the elements
+	 */
+	public JDBCDAO(String DBTableName)
+	{
+		this.DBTableName = DBTableName;
+	}
 	
 	/**
 	 * @param url Url to the JDBC database
@@ -69,16 +80,21 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 	@Override
 	public void create(DataType data) {
 
+		
 	}
 
 	@Override
 	public List<DataType> readAll() {
 		List<DataType> dataList = new ArrayList<DataType>();
 		try {
-			
-			// Let the concrete class do the specifics
-			readAllQuery(this.connection, dataList);
 
+			// Setup and execute the query
+			PreparedStatement prepareStatement = connection.prepareStatement("select * from " + this.DBTableName);
+			ResultSet rs = prepareStatement.executeQuery();
+
+			// Let the concrete class parse the specifics
+			dataList = parseQueryResultSet(rs);
+			
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -87,8 +103,21 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 
 	@Override
 	public List<DataType> search(DataType data, IMatcher<DataType> matcher) {
-		// TODO Auto-generated method stub
-		return null;
+		List<DataType> dataList = new ArrayList<DataType>();
+
+		try {
+			// Setup and execute the query
+			final String sqlMatchStatement = matcher.getSQLMatchStatement(this.DBTableName, data);
+			PreparedStatement prepareStatement = this.connection.prepareStatement(sqlMatchStatement);
+			ResultSet rs = prepareStatement.executeQuery();
+			
+			dataList = parseQueryResultSet(rs);
+
+		} catch (Exception e) {
+			System.out.println(e);
+
+		}
+		return dataList;
 	}
 
 	@Override

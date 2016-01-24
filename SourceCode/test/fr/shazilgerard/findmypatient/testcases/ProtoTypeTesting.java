@@ -8,6 +8,7 @@ import java.util.List;
 import fr.shazilgerard.findmypatient.controller.IdentityController;
 import fr.shazilgerard.findmypatient.dao.PatientJDBCDAO;
 import fr.shazilgerard.findmypatient.datamodel.Patient;
+import fr.shazilgerard.findmypatient.helpers.MatchPatientName;
 
 /**
  * @author Gerard
@@ -30,12 +31,32 @@ public class ProtoTypeTesting {
 	{
 		testDAOConnection();
 		testControllerAndDAO();
+		testDAOSearch();
 	}
 	
 	/**
 	 * 
 	 */
+	private void testDAOSearch() {
+		System.out.println("--Test DAO search--");
+		PatientJDBCDAO patientDAO = new PatientJDBCDAO();
+		patientDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
+		patientDAO.connect();
+		
+		Patient patientToSearch = new Patient("Gerard", "", "");
+		MatchPatientName matcher = new MatchPatientName();
+		List<Patient> patientsMatched = patientDAO.search(patientToSearch, matcher);
+		
+		printPatients(patientsMatched);
+		
+		patientDAO.disconnect();
+	}
+
+	/**
+	 * 
+	 */
 	private void testDAOConnection() {
+		System.out.println("--Test DAO connection--");
 		PatientJDBCDAO patientDAO = new PatientJDBCDAO();
 		patientDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
 		patientDAO.connect();
@@ -48,6 +69,7 @@ public class ProtoTypeTesting {
 
 	private void testControllerAndDAO()
 	{
+		System.out.println("--Test controller & dao--");
 		IdentityController identityController = new IdentityController();
 		List<Patient> patients = identityController.getPatientManagement().readAll();
 		

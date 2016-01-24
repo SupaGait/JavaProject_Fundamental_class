@@ -20,22 +20,28 @@ import fr.shazilgerard.findmypatient.helpers.IMatcher;
  *
  */
 public class PatientJDBCDAO extends JDBCDAO<Patient> {
+	
+	public PatientJDBCDAO()
+	{
+		// Pass the table name
+		super("PATIENTS");
+	}
 
 	@Override
-	protected void readAllQuery(Connection connection, List<Patient> dataResult) throws SQLException {
-
-		PreparedStatement prepareStatement = connection.prepareStatement("select * from PATIENTS");
+	protected List<Patient> parseQueryResultSet(ResultSet rs) throws SQLException {
+		List<Patient> patientList = new ArrayList<Patient>();
 		
-		// Parse the query
-		ResultSet rs = prepareStatement.executeQuery();
+		// Iterate through the results and add to list
 		while (rs.next()) {
 			String name = rs.getString("NAME");
 			String id = rs.getString("ID");
 			String room = rs.getString("ROOM");
 
 			Patient patient = new Patient(name, id, room);
-			dataResult.add(patient);
+			patientList.add(patient);
 		}
+		
+		return patientList;
 	}
 
 	@Override

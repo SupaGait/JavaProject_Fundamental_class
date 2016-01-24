@@ -4,6 +4,7 @@
 package fr.shazilgerard.findmypatient.dao;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -17,6 +18,12 @@ import fr.shazilgerard.findmypatient.helpers.IMatcher;
  */
 public class UserJDBCDAO extends JDBCDAO<User> {
 
+	public UserJDBCDAO()
+	{
+		// Pass the table name
+		super("USERS");
+	}
+	
 	@Override
 	public void create(User data) {
 		// TODO Auto-generated method stub
@@ -47,15 +54,15 @@ public class UserJDBCDAO extends JDBCDAO<User> {
 	}
 
 	@Override
-	protected void readAllQuery(Connection connection, List<User> dataResult) throws SQLException {
+	protected void writeDataField() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected void writeDataField() {
+	protected List<User> parseQueryResultSet(ResultSet resultSet) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 }
