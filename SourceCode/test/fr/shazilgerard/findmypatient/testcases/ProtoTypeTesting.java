@@ -32,11 +32,27 @@ public class ProtoTypeTesting {
 		testDAOConnection();
 		testControllerAndDAO();
 		testDAOSearch();
+		testDAOCreate();
 	}
 	
 	/**
 	 * 
 	 */
+	private void testDAOCreate() {
+		System.out.println("--Test DAO create--");
+		PatientJDBCDAO patientDAO = new PatientJDBCDAO();
+		patientDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
+		patientDAO.connect();
+		
+		String newPatientName = "NewlyAddedPatient";
+		Patient patientToAdd = new Patient(newPatientName, "", "");
+		patientDAO.create(patientToAdd);
+		
+		printPatients( patientDAO.readAll() );
+		
+		patientDAO.disconnect();
+	}
+
 	private void testDAOSearch() {
 		System.out.println("--Test DAO search--");
 		PatientJDBCDAO patientDAO = new PatientJDBCDAO();
@@ -52,9 +68,6 @@ public class ProtoTypeTesting {
 		patientDAO.disconnect();
 	}
 
-	/**
-	 * 
-	 */
 	private void testDAOConnection() {
 		System.out.println("--Test DAO connection--");
 		PatientJDBCDAO patientDAO = new PatientJDBCDAO();

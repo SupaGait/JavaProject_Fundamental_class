@@ -3,12 +3,10 @@
  */
 package fr.shazilgerard.findmypatient.dao;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import fr.shazilgerard.findmypatient.datamodel.Patient;
 import fr.shazilgerard.findmypatient.datamodel.User;
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
 
@@ -54,13 +52,13 @@ public class UserJDBCDAO extends JDBCDAO<User> {
 	}
 
 	@Override
-	protected void writeDataField() {
+	protected List<User> parseQueryResultSet(ResultSet resultSet) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	protected List<User> parseQueryResultSet(ResultSet resultSet) throws SQLException {
+	protected String getInsertString(User dataType) {
 		// TODO Auto-generated method stub
 		return null;
 	}

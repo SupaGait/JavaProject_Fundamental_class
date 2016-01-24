@@ -27,6 +27,9 @@ public class IdentityController {
 	private IDAOManagement patientDAOManagement;
 	private IDAOManagement userDAOManagement;
 	
+	private PatientJDBCDAO patientJDBCDAO;
+	private UserJDBCDAO userJDBCDAO;
+	
 	private PatientOverview patientGUI; // TODO: Interface?
 	
 	public IdentityController()
@@ -34,17 +37,41 @@ public class IdentityController {
 		settings = new Settings();
 		
 		// Create UserJDBCDAO, save the management for cleanup
-		UserJDBCDAO userJDBCDAO = new UserJDBCDAO();
+		this.userJDBCDAO = new UserJDBCDAO();
 		this.userDAOManagement = userJDBCDAO;
 
 		// Create UserJDBCDAO, save the management for cleanup
-		PatientJDBCDAO patientJDBCDAO = new PatientJDBCDAO();
+		this.patientJDBCDAO = new PatientJDBCDAO();
 		this.patientDAOManagement = patientJDBCDAO;
 		
 		// Create the Patient and User management, pass the relative DAO's
 		this.userManagement = new UserManagement(userJDBCDAO);
 		this.patientManagement = new PatientManagement(patientJDBCDAO, userManagement);
+	}
+	
+	/**
+	 * Setup and enable the database connection
+	 * @param url Url to the JDBC database
+	 * @param name User name for connection to the DB
+	 * @param password password for the connection to the DB
+	 */
+	public void setupDatabase(String url, String name, String password)
+	{
+		patientJDBCDAO.setDatabaseConnection(url, name, password);
+		userJDBCDAO.setDatabaseConnection(url, name, password);
 		
+		// Enable connections
+		userDAOManagement.connect();
+		patientDAOManagement.connect();
+	}
+	
+	/**
+	 * Always needs to be called before exiting the program
+	 */
+	public void closeDataBase()
+	{
+		userDAOManagement.disconnect();
+		patientDAOManagement.disconnect();
 	}
 	
 	public UserManagement getUserManagement()

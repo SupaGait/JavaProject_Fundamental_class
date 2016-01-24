@@ -8,11 +8,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import fr.shazilgerard.findmypatient.datamodel.Patient;
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
 
 /**
@@ -29,7 +28,7 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 	
 	private final String DBTableName; 
 	protected abstract List<DataType> parseQueryResultSet(ResultSet resultSet) throws SQLException;
-	protected abstract void writeDataField();
+	protected abstract String getInsertString(DataType dataType);
 	
 	
 	/**
@@ -80,7 +79,15 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 	@Override
 	public void create(DataType data) {
 
-		
+		String queryString = getInsertString(data);
+		try {
+			final String sql = "INSERT INTO " + this.DBTableName+" "+ queryString;
+			Statement createStatement = this.connection.createStatement();
+			createStatement.execute(sql);
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 	@Override
@@ -89,7 +96,7 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 		try {
 
 			// Setup and execute the query
-			PreparedStatement prepareStatement = connection.prepareStatement("select * from " + this.DBTableName);
+			PreparedStatement prepareStatement = this.connection.prepareStatement("select * from " + this.DBTableName);
 			ResultSet rs = prepareStatement.executeQuery();
 
 			// Let the concrete class parse the specifics
@@ -123,13 +130,11 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 	@Override
 	public void update(DataType data) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void delete(DataType data) {
 		// TODO Auto-generated method stub
-		
 	}
 
 }

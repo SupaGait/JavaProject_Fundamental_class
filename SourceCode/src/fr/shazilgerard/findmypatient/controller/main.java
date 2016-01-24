@@ -20,7 +20,7 @@ public class main {
 		
 		// Controller
 		IdentityController controller = new IdentityController();
-
+		
 		// Start GUI
 		System.out.println("Starting GUI");
 		EventQueue.invokeLater(new Runnable() {

@@ -50,9 +50,12 @@ public class PatientOverview extends JFrame implements ActionListener
 	 */
 	public PatientOverview(IdentityController identityController) 
 	{
-		
 		this.controller = identityController;
+		
 		createComponents();
+		
+		// For testing, hardcode the address of DB now
+		controller.setupDatabase("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
 	}
 
 	private void createComponents()
@@ -153,6 +156,7 @@ public class PatientOverview extends JFrame implements ActionListener
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		Object source = e.getSource();
 		if(source.equals(btnListAllPatients))
 		{
