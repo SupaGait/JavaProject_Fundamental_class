@@ -7,6 +7,9 @@ import fr.shazilgerard.findmypatient.config.Settings;
 import fr.shazilgerard.findmypatient.dao.IDAOManagement;
 import fr.shazilgerard.findmypatient.dao.PatientJDBCDAO;
 import fr.shazilgerard.findmypatient.dao.UserJDBCDAO;
+import fr.shazilgerard.findmypatient.datamodel.PatientManagement;
+import fr.shazilgerard.findmypatient.datamodel.UserManagement;
+import fr.shazilgerard.findmypatient.view.PatientOverview;
 
 /**
  * @author Gerard
@@ -21,9 +24,10 @@ public class IdentityController {
 	
 	private UserManagement userManagement;
 	private PatientManagement patientManagement;
-	
 	private IDAOManagement patientDAOManagement;
 	private IDAOManagement userDAOManagement;
+	
+	private PatientOverview patientGUI; // TODO: Interface?
 	
 	public IdentityController()
 	{
@@ -40,6 +44,7 @@ public class IdentityController {
 		// Create the Patient and User management, pass the relative DAO's
 		this.userManagement = new UserManagement(userJDBCDAO);
 		this.patientManagement = new PatientManagement(patientJDBCDAO, userManagement);
+		
 	}
 	
 	public UserManagement getUserManagement()

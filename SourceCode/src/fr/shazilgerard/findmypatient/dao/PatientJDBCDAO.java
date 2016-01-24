@@ -3,6 +3,7 @@
  */
 package fr.shazilgerard.findmypatient.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.shazilgerard.findmypatient.datamodel.Patient;
@@ -28,8 +29,12 @@ public class PatientJDBCDAO extends JDBCDAO<Patient> {
 	 */
 	@Override
 	public List<Patient> readAll() {
-		// TODO Auto-generated method stub
-		return null;
+
+		// TODO fill with correct data
+		ArrayList<Patient> patients = new ArrayList<Patient>();
+		patients.add(new Patient("Gerard", "0231432", "Room 6"));
+		
+		return patients;
 	}
 
 	/* (non-Javadoc)

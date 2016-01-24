@@ -21,32 +21,8 @@ package fr.shazilgerard.findmypatient.datamodel {
 		+ get()..
 		+ set...()
 	}
-}
-package fr.shazilgerard.findmypatient.view {
-	class GUIView {
-		GUIView(IdentityController controller)
-	 	{static} void main()
-	}
-}
-package fr.shazilgerard.findmypatient.controller {
-	class IdentityController{
-		- IDAOManagement patientDaoManagement
-		- IDAOManagement userDaoManagement
-		- UserManagement userManagement
-		- Settings settings
-		
-		+ IdentityController()
-		+ getCurrentUserName()
-		+ UserManagement getUserManagement()
-		+ PatientMangement getPatientManagement()
-	}
-	note right of IdentityController
-		Is responsible for (delegating):
-		 - Instantiation and initialisation of main components.
-		 - Cleanup of objects and connections when closing.
-		 - Act as API to View.
-	end note
-	class UserManagement{
+	
+		class UserManagement{
 		- IDataDAO<User> userDao
 		- User currentUser
 		--
@@ -62,7 +38,7 @@ package fr.shazilgerard.findmypatient.controller {
 		+ logout()
 		+ User getCurrentUser()
 	}
-	note left of UserManagement
+	note top of UserManagement
 		Is responsible for determining 
 		the rights of the current user.
 		Other classes, like PatientManagement 
@@ -84,6 +60,31 @@ package fr.shazilgerard.findmypatient.controller {
 		+ Encrypt(User user)
 		+ User Decrypt(.?.)
 	}
+}
+package fr.shazilgerard.findmypatient.view {
+	class GUIView {
+		GUIView(IdentityController controller)
+	}
+}
+package fr.shazilgerard.findmypatient.controller {
+	class IdentityController{
+		- IDAOManagement patientDaoManagement
+		- IDAOManagement userDaoManagement
+		- UserManagement userManagement
+		- Settings settings
+		
+		+ IdentityController()
+		+ getCurrentUserName()
+		+ UserManagement getUserManagement()
+		+ PatientMangement getPatientManagement()
+	}
+	note right of IdentityController
+		Is responsible for (delegating):
+		 - Instantiation and initialisation of main components.
+		 - Cleanup of objects and connections when closing.
+		 - Act as API to View.
+	end note
+
 }
 
 package fr.shazilgerard.findmypatient.config {
@@ -157,7 +158,6 @@ IdentityController *-- UserManagement
 IdentityController *-- PatientManagement
 Configuration -* IdentityController
 UserManagement <- PatientManagement
-UserDataEncryption --* UserManagement
 	
 GUIView *-- IdentityController
 

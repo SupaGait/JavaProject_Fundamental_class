@@ -1,12 +1,11 @@
 /**
  * 
  */
-package fr.shazilgerard.findmypatient.controller;
+package fr.shazilgerard.findmypatient.datamodel;
 
 import java.util.List;
 
 import fr.shazilgerard.findmypatient.dao.IDataDAO;
-import fr.shazilgerard.findmypatient.datamodel.Patient;
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
 
 /**
@@ -47,5 +46,10 @@ public class PatientManagement {
 	{
 		// TODO: check rights
 		return this.patientDAO.search(patient, matcher);
+	}
+	public List<Patient> readAll()
+	{
+		return this.patientDAO.readAll();
+		// TODO: check rights
 	}
 }

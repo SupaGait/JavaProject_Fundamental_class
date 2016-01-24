@@ -1,12 +1,11 @@
 /**
  * 
  */
-package fr.shazilgerard.findmypatient.controller;
+package fr.shazilgerard.findmypatient.datamodel;
 
 import java.util.List;
 
 import fr.shazilgerard.findmypatient.dao.IDataDAO;
-import fr.shazilgerard.findmypatient.datamodel.User;
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
 
 /**
