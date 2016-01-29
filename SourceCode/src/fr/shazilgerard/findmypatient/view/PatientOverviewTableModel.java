@@ -52,6 +52,7 @@ public class PatientOverviewTableModel extends AbstractTableModel {
 			{
 				case 0: value = this.patients.get(rowIndex).getName(); break;
 				case 1: value = this.patients.get(rowIndex).getRoom(); break;
+				case 2: value = this.patients.get(rowIndex).getId(); break;
 			}			
 		}
 		return value;
@@ -71,7 +72,7 @@ public class PatientOverviewTableModel extends AbstractTableModel {
                 name = "Room";
                 break;
             case 2:
-                name = "Patient info 2";
+                name = "ID";
                 break;
             case 3:
                 name = "Patient info 3";

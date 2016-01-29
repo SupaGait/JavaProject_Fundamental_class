@@ -16,8 +16,14 @@ public class Patient {
 	
 	public Patient(String name, String room)
 	{
+		this.id = "new";
 		this.name = name;
+		this.room = room;
+	}
+	public Patient(String name, String room, String id)
+	{
 		this.id = id;
+		this.name = name;
 		this.room = room;
 	}
 

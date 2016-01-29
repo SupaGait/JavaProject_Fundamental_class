@@ -8,7 +8,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,14 +20,23 @@ import fr.shazilgerard.findmypatient.helpers.IMatcher;
  */
 public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManagement {
 
-	private Connection connection;
+	private final String DBTableName;
 	private String url;
 	private String userName;
 	private String password;
+	protected Connection connection;
 	
-	private final String DBTableName; 
+	protected PreparedStatement insertStmt;
+	protected PreparedStatement updateStmt;
+	protected PreparedStatement deleteStmt;
+	private PreparedStatement readAllStmt;
+	
+	// TODO: Comment
+	protected abstract void initPrepareStatments() throws SQLException;
 	protected abstract List<DataType> parseQueryResultSet(ResultSet resultSet) throws SQLException;
-	protected abstract String getInsertString(DataType dataType);
+	protected abstract PreparedStatement insertData(DataType dataType) throws SQLException;
+	protected abstract PreparedStatement updateData(DataType dataType) throws SQLException;
+	protected abstract PreparedStatement deleteData(DataType dataType) throws SQLException;
 	
 	
 	/**
@@ -60,6 +68,10 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 			this.connection = DriverManager.getConnection(this.url, this.userName, this.password);
 			System.out.println("SQL connection opened.");
 			
+			// Prepare the statements
+			this.readAllStmt = this.connection.prepareStatement("SELECT * FROM " + this.DBTableName);
+			initPrepareStatments();
+			
 		} 
 		catch (ClassNotFoundException | SQLException e) {
 			// TODO: create specialized exception DB connection exception.
@@ -79,15 +91,13 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 	
 	@Override
 	public void create(DataType data) {
-
-		String queryString = getInsertString(data);
 		try {
-			final String sql = "INSERT INTO " + this.DBTableName+" "+ queryString;
-			Statement createStatement = this.connection.createStatement();
-			createStatement.execute(sql);
+			// Get and execute the query
+			PreparedStatement insertDataStmt = insertData(data);
+			insertDataStmt.execute();
 			
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 	}
 
@@ -96,15 +106,14 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 		List<DataType> dataList = new ArrayList<DataType>();
 		try {
 
-			// Setup and execute the query
-			PreparedStatement prepareStatement = this.connection.prepareStatement("select * from " + this.DBTableName);
-			ResultSet rs = prepareStatement.executeQuery();
+			// Execute readAll query
+			ResultSet rs = this.readAllStmt.executeQuery();
 
-			// Let the concrete class parse the specifics
+			// Parses the data objects
 			dataList = parseQueryResultSet(rs);
 			
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 		return dataList;
 	}
@@ -119,23 +128,39 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 			PreparedStatement prepareStatement = this.connection.prepareStatement(sqlMatchStatement);
 			ResultSet rs = prepareStatement.executeQuery();
 			
+			// Parses the data objects
 			dataList = parseQueryResultSet(rs);
 
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 
 		}
 		return dataList;
 	}
 
 	@Override
-	public void update(DataType data) {
-		// TODO Auto-generated method stub
+	public void update(DataType data){
+		try {
+			// Get and execute the query
+			PreparedStatement insertDataStmt = updateData(data);
+			insertDataStmt.execute();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void delete(DataType data) {
-		// TODO Auto-generated method stub
+		try {
+			// Get and execute the query
+			PreparedStatement deleteDataStmt = deleteData(data);
+			deleteDataStmt.execute();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+
 
 }
