@@ -165,11 +165,12 @@ public class PatientOverviewView extends JFrame implements ActionListener
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int row = tablePatients.rowAtPoint(e.getPoint());
-		        //int col = tablePatients.columnAtPoint(e.getPoint());
-		        
-				Patient patient = modelPatientOverview.getPatient(row);
-				PatientEditView patientEditeView = new PatientEditView(identityController, patient);
-				patientEditeView.setVisible(true);
+		        if(row > 0)
+		        {
+					Patient patient = modelPatientOverview.getPatient(row);
+					PatientEditView patientEditeView = new PatientEditView(identityController, patient, modelPatientOverview);
+					patientEditeView.setVisible(true);
+		        }
 			}
 		});
 		tablePatients.setFillsViewportHeight(true);
