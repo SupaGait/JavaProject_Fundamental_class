@@ -14,7 +14,7 @@ import fr.shazilgerard.findmypatient.view.PatientOverviewView;
 /**
  * @author Gerard
  * 
- * The Identity controller is in charge of reading local settings, 
+ * The Identity identityController is in charge of reading local settings, 
  * creating the sub classes and providing access based on current login 
  * User. 
  *

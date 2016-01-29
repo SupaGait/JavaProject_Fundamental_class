@@ -92,4 +92,9 @@ public class PatientOverviewTableModel extends AbstractTableModel {
 		this.patients = allPatients;
 		this.fireTableDataChanged();
 	}
+	
+	public Patient getPatient(int rowIndex) {
+		return this.patients.get(rowIndex);
+	}
+
 }

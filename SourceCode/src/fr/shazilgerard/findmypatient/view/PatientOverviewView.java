@@ -26,6 +26,8 @@ import fr.shazilgerard.findmypatient.datamodel.Patient;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * @author Gerard
@@ -34,7 +36,7 @@ import java.awt.Insets;
 public class PatientOverviewView extends JFrame implements ActionListener
 {
 	
-	IdentityController controller; // TODO: Create interface?
+	IdentityController identityController; // TODO: Create interface?
 
 	private JPanel contentPane;
 	private JTable tablePatients;
@@ -53,12 +55,12 @@ public class PatientOverviewView extends JFrame implements ActionListener
 	 */
 	public PatientOverviewView(IdentityController identityController) 
 	{
-		this.controller = identityController;
+		this.identityController = identityController;
 		
 		createComponents();
 		
 		// For testing, hardcode the address of DB now
-		controller.setupDatabase("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
+		identityController.setupDatabase("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
 	}
 
 	private void createComponents()
@@ -129,22 +131,29 @@ public class PatientOverviewView extends JFrame implements ActionListener
 		txtPassword.setColumns(10);
 		
 		JPanel panelCommands = new JPanel();
-		FlowLayout fl_panelCommands = (FlowLayout) panelCommands.getLayout();
-		fl_panelCommands.setAlignment(FlowLayout.LEFT);
 		contentPane.add(panelCommands, BorderLayout.SOUTH);
+		panelCommands.setLayout(new GridLayout(0, 2, 0, 0));
 		
-		JButton btnSearch = new JButton("Search");
-		btnSearch.setVerticalAlignment(SwingConstants.TOP);
-
+		JPanel panelGet = new JPanel();
+		panelCommands.add(panelGet);
+				panelGet.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
-		this.btnListAllPatients = new JButton("List all patients");
-		btnListAllPatients.addActionListener(this);
-		panelCommands.add(btnListAllPatients);
-		panelCommands.add(btnSearch);
+				
+				this.btnListAllPatients = new JButton("List all patients");
+				panelGet.add(btnListAllPatients);
+				
+				JButton btnSearch = new JButton("Search");
+				panelGet.add(btnSearch);
+				btnListAllPatients.addActionListener(this);
+		
+		JPanel panelAdd = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panelAdd.getLayout();
+		flowLayout.setAlignment(FlowLayout.RIGHT);
+		panelCommands.add(panelAdd);
 		
 		this.btnAddNewPatient = new JButton("Add new patient");
+		panelAdd.add(btnAddNewPatient);
 		this.btnAddNewPatient.addActionListener(this);
-		panelCommands.add(this.btnAddNewPatient);
 		
 		this.modelPatientOverview = new PatientOverviewTableModel();
 		
@@ -152,6 +161,17 @@ public class PatientOverviewView extends JFrame implements ActionListener
 		contentPane.add(panelData, BorderLayout.CENTER);
 		panelData.setLayout(new GridLayout(0, 1, 0, 0));
 		tablePatients = new JTable(this.modelPatientOverview);
+		tablePatients.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = tablePatients.rowAtPoint(e.getPoint());
+		        //int col = tablePatients.columnAtPoint(e.getPoint());
+		        
+				Patient patient = modelPatientOverview.getPatient(row);
+				PatientEditView patientEditeView = new PatientEditView(identityController, patient);
+				patientEditeView.setVisible(true);
+			}
+		});
 		tablePatients.setFillsViewportHeight(true);
 		
 		JScrollPane scrollPanePatients = new JScrollPane(tablePatients);
@@ -168,7 +188,7 @@ public class PatientOverviewView extends JFrame implements ActionListener
 		if(source.equals(btnListAllPatients))
 		{
 			// Retrieve the pations
-			java.util.List<Patient> allPatients = this.controller.getPatientManagement().readAll();
+			java.util.List<Patient> allPatients = this.identityController.getPatientManagement().readAll();
 			
 			//Update the table list
 			modelPatientOverview.setPatients(allPatients);
@@ -178,7 +198,7 @@ public class PatientOverviewView extends JFrame implements ActionListener
 		{
 			if(patientAddView == null)
 			{
-				patientAddView = new PatientAddView(this.controller);
+				patientAddView = new PatientAddView(this.identityController);
 			}
 			patientAddView.setVisible(true);
 		}

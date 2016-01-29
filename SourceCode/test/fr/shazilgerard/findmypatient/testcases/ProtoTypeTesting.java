@@ -82,7 +82,7 @@ public class ProtoTypeTesting {
 
 	private void testControllerAndDAO()
 	{
-		System.out.println("--Test controller & dao--");
+		System.out.println("--Test identityController & dao--");
 		IdentityController identityController = new IdentityController();
 		List<Patient> patients = identityController.getPatientManagement().readAll();
 		

@@ -34,7 +34,7 @@ public class PatientAddView extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @param controller 
+	 * @param identityController 
 	 */
 	public PatientAddView(IdentityController controller) {
 		
@@ -50,11 +50,10 @@ public class PatientAddView extends JFrame {
 		contentPane.add(panelFields, BorderLayout.SOUTH);
 		
 		JButton btnAddPatient = new JButton("Add patient");
-		JFrame thisWindow = this;
 		btnAddPatient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.getPatientManagement().add( new Patient(textFieldPatientName.getText(),textFieldPatientRoom.getText()));
-				thisWindow.dispose();
+				dispose();
 			}
 		});
 		panelFields.add(btnAddPatient);
