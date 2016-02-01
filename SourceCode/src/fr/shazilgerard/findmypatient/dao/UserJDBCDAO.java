@@ -26,23 +26,6 @@ public class UserJDBCDAO extends JDBCDAO<User> {
 	}
 
 	/* (non-Javadoc)
-	 * @see fr.shazilgerard.findmypatient.dao.JDBCDAO#initPrepareStatments()
-	 */
-	@Override
-	protected void initPrepareStatments() throws SQLException {
-		
-		// TODO
-		this.insertStmt = this.connection.prepareStatement(
-				"INSERT INTO USERS(NAME, PASSWORD) VALUES(?,?)");
-		
-		this.updateStmt = this.connection.prepareStatement(
-				"UPDATE USERS SET NAME=?,PASSWORD=? WHERE ID=?");
-		
-		this.deleteStmt = this.connection.prepareStatement(
-				"DELETE FROM USERS WHERE ID=?");
-	}
-
-	/* (non-Javadoc)
 	 * @see fr.shazilgerard.findmypatient.dao.JDBCDAO#parseQueryResultSet(java.sql.ResultSet)
 	 */
 	@Override
@@ -66,9 +49,10 @@ public class UserJDBCDAO extends JDBCDAO<User> {
 	 */
 	@Override
 	protected PreparedStatement insertData(User user) throws SQLException {
-		this.insertStmt.setString(1, user.getName());
-		this.insertStmt.setString(2, user.getPassword());
-		return this.insertStmt;
+		PreparedStatement stmt = this.connection.prepareStatement("INSERT INTO USERS(NAME, PASSWORD) VALUES(?,?)");
+		stmt.setString(1, user.getName());
+		stmt.setString(2, user.getPassword());
+		return stmt;
 	}
 
 	/* (non-Javadoc)
@@ -76,10 +60,11 @@ public class UserJDBCDAO extends JDBCDAO<User> {
 	 */
 	@Override
 	protected PreparedStatement updateData(User user) throws SQLException {
-		this.updateStmt.setString(1, user.getName());
-		this.updateStmt.setString(2, user.getPassword());
-		this.updateStmt.setString(3, user.getId());
-		return this.updateStmt;
+		PreparedStatement stmt = this.connection.prepareStatement("UPDATE USERS SET NAME=?,PASSWORD=? WHERE ID=?");
+		stmt.setString(1, user.getName());
+		stmt.setString(2, user.getPassword());
+		stmt.setString(3, user.getId());
+		return stmt;
 	}
 
 	/* (non-Javadoc)
@@ -87,7 +72,8 @@ public class UserJDBCDAO extends JDBCDAO<User> {
 	 */
 	@Override
 	protected PreparedStatement deleteData(User user) throws SQLException {
-		deleteStmt.setString(3, user.getId());
-		return this.deleteStmt;
+		PreparedStatement stmt = this.connection.prepareStatement("DELETE FROM USERS WHERE ID=?");
+		stmt.setString(3, user.getId());
+		return stmt;
 	}
 }

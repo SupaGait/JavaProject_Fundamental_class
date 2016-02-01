@@ -25,14 +25,9 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 	private String userName;
 	private String password;
 	protected Connection connection;
-	
-	protected PreparedStatement insertStmt;
-	protected PreparedStatement updateStmt;
-	protected PreparedStatement deleteStmt;
 	private PreparedStatement readAllStmt;
 	
 	// TODO: Comment
-	protected abstract void initPrepareStatments() throws SQLException;
 	protected abstract List<DataType> parseQueryResultSet(ResultSet resultSet) throws SQLException;
 	protected abstract PreparedStatement insertData(DataType dataType) throws SQLException;
 	protected abstract PreparedStatement updateData(DataType dataType) throws SQLException;
@@ -70,7 +65,6 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 			
 			// Prepare the statements
 			this.readAllStmt = this.connection.prepareStatement("SELECT * FROM " + this.DBTableName);
-			initPrepareStatments();
 			
 		} 
 		catch (ClassNotFoundException | SQLException e) {

@@ -23,20 +23,6 @@ public class PatientJDBCDAO extends JDBCDAO<Patient> {
 		// Pass the table name
 		super("PATIENTS");
 	}
-	
-	@Override
-	protected void initPrepareStatments() throws SQLException {
-		String query;
-		
-		query = "INSERT INTO PATIENTS(NAME, ROOM) VALUES(?,?)";
-		this.insertStmt = this.connection.prepareStatement(query);
-		
-		query = "UPDATE PATIENTS SET NAME=?,ROOM=? WHERE ID=?";
-		this.updateStmt = this.connection.prepareStatement(query);
-		
-		query = "DELETE FROM PATIENTS WHERE ID=?";
-		this.deleteStmt = this.connection.prepareStatement(query);
-	}
 
 	@Override
 	protected List<Patient> parseQueryResultSet(ResultSet rs) throws SQLException {
@@ -57,22 +43,25 @@ public class PatientJDBCDAO extends JDBCDAO<Patient> {
 	@Override
 	protected PreparedStatement insertData(Patient patient) throws SQLException
 	{
-		this.insertStmt.setString(1, patient.getName());
-		this.insertStmt.setString(2, patient.getRoom());
-		return this.insertStmt;
+		PreparedStatement stmt = this.connection.prepareStatement("INSERT INTO PATIENTS(NAME, ROOM) VALUES(?,?)");
+		stmt.setString(1, patient.getName());
+		stmt.setString(2, patient.getRoom());
+		return stmt;
 	}
 	@Override
 	protected PreparedStatement updateData(Patient patient) throws SQLException
 	{
-		this.updateStmt.setString(1, patient.getName());
-		this.updateStmt.setString(2, patient.getRoom());
-		this.updateStmt.setString(3, patient.getId());
-		return this.updateStmt;
+		PreparedStatement stmt = this.connection.prepareStatement("UPDATE PATIENTS SET NAME=?,ROOM=? WHERE ID=?");
+		stmt.setString(1, patient.getName());
+		stmt.setString(2, patient.getRoom());
+		stmt.setString(3, patient.getId());
+		return stmt;
 	}
 	@Override
 	protected PreparedStatement deleteData( Patient patient) throws SQLException
 	{
-		deleteStmt.setString(3, patient.getId());
-		return this.deleteStmt;
+		PreparedStatement stmt = this.connection.prepareStatement("DELETE FROM PATIENTS WHERE ID=?");
+		stmt.setString(3, patient.getId());
+		return stmt;
 	}
 }
