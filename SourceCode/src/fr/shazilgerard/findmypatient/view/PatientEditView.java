@@ -63,7 +63,7 @@ public class PatientEditView extends JFrame {
 		
 		textFieldName = new JTextField();
 		textFieldName.setColumns(10);
-		textFieldName.setText(patient.getName());
+		textFieldName.setText(patient.getDisplayName());
 		GridBagConstraints gbc_textFieldName = new GridBagConstraints();
 		gbc_textFieldName.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textFieldName.insets = new Insets(0, 0, 5, 0);
@@ -81,7 +81,7 @@ public class PatientEditView extends JFrame {
 		
 		textFieldRoom = new JTextField();
 		textFieldRoom.setColumns(10);
-		textFieldRoom.setText(patient.getRoom());
+		textFieldRoom.setText(patient.getDisplayName());
 		GridBagConstraints gbc_textFieldRoom = new GridBagConstraints();
 		gbc_textFieldRoom.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textFieldRoom.gridx = 1;
@@ -96,14 +96,14 @@ public class PatientEditView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				// Retrieve the values
-				patient.setName(textFieldName.getText());
-				patient.setRoom(textFieldRoom.getText());
+				patient.setDisplayName(textFieldName.getText());
+				patient.setDisplayName(textFieldRoom.getText());
 				
 				// Modify the patient
 				controller.getPatientManagement().modify(patient);
 				
 				// Update the view
-				modelPatientOverview.fireTableDataChanged();  // TODO: change method use observer patterns?
+				modelPatientOverview.fireTableDataChanged();  
 				
 				dispose();
 			}

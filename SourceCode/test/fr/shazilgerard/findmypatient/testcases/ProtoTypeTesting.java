@@ -10,15 +10,7 @@ import fr.shazilgerard.findmypatient.dao.PatientJDBCDAO;
 import fr.shazilgerard.findmypatient.datamodel.Patient;
 import fr.shazilgerard.findmypatient.helpers.MatchPatientName;
 
-/**
- * @author Gerard
- *
- */
 public class ProtoTypeTesting {
-
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) 
 	{
 		ProtoTypeTesting tests = new ProtoTypeTesting();
@@ -29,27 +21,27 @@ public class ProtoTypeTesting {
 	
 	public void runTests()
 	{
-		testDAOConnection();
-		testControllerAndDAO();
-		testDAOSearch();
 		testDAOCreate();
+		testDAOSearch();
+		testDAOConnection();
+		//testControllerAndDAO();
+		
+		
 	}
 	
-	/**
-	 * 
-	 */
+
 	private void testDAOCreate() {
 		System.out.println("--Test DAO create--");
 		PatientJDBCDAO patientDAO = new PatientJDBCDAO();
 		patientDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
 		patientDAO.connect();
+		System.out.println("Database connected !");
+		
 		
 		String newPatientName = "NewlyAddedPatient";
-		Patient patientToAdd = new Patient(newPatientName, "");
+		Patient patientToAdd = new Patient(newPatientName, newPatientName, newPatientName, newPatientName, newPatientName, newPatientName, newPatientName, newPatientName);
 		patientDAO.create(patientToAdd);
-		
-		printPatients( patientDAO.readAll() );
-		
+		printPatients(patientDAO.readAll() );
 		patientDAO.disconnect();
 	}
 
@@ -59,7 +51,7 @@ public class ProtoTypeTesting {
 		patientDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
 		patientDAO.connect();
 		
-		Patient patientToSearch = new Patient("Gerard", "");
+		Patient patientToSearch = new Patient("Gerard", null, null, null, null, null, null, null);
 		MatchPatientName matcher = new MatchPatientName();
 		List<Patient> patientsMatched = patientDAO.search(patientToSearch, matcher);
 		
@@ -92,7 +84,7 @@ public class ProtoTypeTesting {
 	private void printPatients(List<Patient> patients)
 	{
 		for (Patient patient : patients) {
-			System.out.println( String.format("%s %s %s", patient.getName(), patient.getId(), patient.getRoom()) );
+			System.out.println( String.format("%s %s", patient.getpId() , patient.getfName()) );
 		}
 	}
 }

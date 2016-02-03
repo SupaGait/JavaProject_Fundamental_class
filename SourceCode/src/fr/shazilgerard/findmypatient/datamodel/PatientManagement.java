@@ -8,10 +8,6 @@ import java.util.List;
 import fr.shazilgerard.findmypatient.dao.IDataDAO;
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
 
-/**
- * @author Gerard
- *
- */
 public class PatientManagement {
 	private UserManagement userManagement;
 	private IDataDAO<Patient> patientDAO;
