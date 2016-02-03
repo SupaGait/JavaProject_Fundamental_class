@@ -36,7 +36,7 @@ public class PatientAddView extends JFrame {
 	 * Create the frame.
 	 * @param identityController 
 	 */
-	public PatientAddView(IdentityController controller) {
+	public PatientAddView(final IdentityController controller) {
 		
 		setTitle("Add a patient");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

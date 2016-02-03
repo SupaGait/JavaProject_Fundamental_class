@@ -19,7 +19,7 @@ public class main {
 	public static void main(String[] args) {
 		
 		// Controller
-		IdentityController controller = new IdentityController();
+		final IdentityController controller = new IdentityController();
 		
 		// Start GUI
 		System.out.println("Starting GUI");

@@ -57,7 +57,12 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 	@Override
 	public void connect() {
 		try {
-			Class.forName("org.apache.derby.jdbc.ClientDriver");
+			try {
+				Class.forName("org.apache.derby.jdbc.ClientDriver");
+				} 
+			catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 			
 			// Set up the connection
 			this.connection = DriverManager.getConnection(this.url, this.userName, this.password);
@@ -67,7 +72,7 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 			this.readAllStmt = this.connection.prepareStatement("SELECT * FROM " + this.DBTableName);
 			
 		} 
-		catch (ClassNotFoundException | SQLException e) {
+		catch ( SQLException e) {
 			// TODO: create specialized exception DB connection exception.
 			e.printStackTrace();
 		}

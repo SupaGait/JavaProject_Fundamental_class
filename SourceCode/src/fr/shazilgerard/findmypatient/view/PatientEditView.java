@@ -35,7 +35,7 @@ public class PatientEditView extends JFrame {
 	 * Create the frame.
 	 * @param modelPatientOverview 
 	 */
-	public PatientEditView(IdentityController controller, Patient patient, PatientOverviewTableModel modelPatientOverview) {
+	public PatientEditView(final IdentityController controller, final Patient patient, final PatientOverviewTableModel modelPatientOverview) {
 		setTitle("Modifiy patient details");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

@@ -128,8 +128,9 @@ package fr.shazilgerard.findmypatient.dao {
 		+ modify(DataType data)
 		+ delete(DataType data)
 		..
-		# {abstract} readDataFields()
-		# {abstract} writeDataFields()
+		# {abstract} insertData(Patient patient)
+		# {abstract} insertData(Patient patient)
+		# {abstract} deleteData(Patient patient)
 	}
 	class UserJDBCDAO{
 		+ UserJDBCDAO(String DBinfo..)
