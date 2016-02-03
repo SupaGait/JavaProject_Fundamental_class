@@ -1,0 +1,72 @@
+@startuml
+
+package fr.shazilgerard.findmypatient.datamodel {
+	class Patient{
+		- String name
+		- String address
+		- Doctor
+		- Room
+		- UUID ID
+		
+		+ getName()
+		+ get...()
+		+ set...()
+	}
+	class User{
+		- String name
+		- String encryptedPassword
+		- Rights rights
+		
+		+ getName()
+		+ getRights()
+		+ get()..
+		+ set...()
+	}
+	
+		class UserManagement{
+		- IDataDAO<User> userDao
+		- User currentUser
+		--
+		+ UserManagement(IDataDAO<User> userDao)
+		+ User login(user, password)
+		+ add(User user)
+		+ delete(User user)
+		+ modify(User user)
+		+ List<User> search(User, Matcher)
+		+ getRights(User user)
+		..
+		+ login(String name, String password)
+		+ logout()
+		+ User getCurrentUser()
+	}
+	note top of UserManagement
+		Is responsible for determining 
+		the rights of the current user.
+		Other classes, like PatientManagement 
+		should ask user rights from this class
+		before executing methods.
+	end note
+	class PatientManagement{
+		- UserManagement userManagement
+		- IDataDAO<Patient> patientDao
+		
+		+ PatientMangament(UserManagement userManagement, 
+		   IDataDAO<Patient> patientDao)
+		+ add(Patient patient)
+		+ delete(Patient patient)
+		+ modify(Patient patient)
+		+ List<Patient> search(Patient, Matcher)
+	}
+	class UserDataEncryption{
+		+ Encrypt(User user)
+		+ User Decrypt(.?.)
+	}
+
+
+UserManagement -> User
+PatientManagement -> Patient
+UserManagement <-- PatientManagement
+
+}
+
+@enduml

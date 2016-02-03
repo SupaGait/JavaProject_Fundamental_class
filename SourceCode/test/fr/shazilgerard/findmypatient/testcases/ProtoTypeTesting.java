@@ -7,7 +7,9 @@ import java.util.List;
 
 import fr.shazilgerard.findmypatient.controller.IdentityController;
 import fr.shazilgerard.findmypatient.dao.PatientJDBCDAO;
+import fr.shazilgerard.findmypatient.dao.UserJDBCDAO;
 import fr.shazilgerard.findmypatient.datamodel.Patient;
+import fr.shazilgerard.findmypatient.datamodel.UserManagement;
 import fr.shazilgerard.findmypatient.helpers.MatchPatientName;
 
 /**
@@ -33,8 +35,28 @@ public class ProtoTypeTesting {
 		testControllerAndDAO();
 		testDAOSearch();
 		testDAOCreate();
+		testUserLogin();
 	}
 	
+	/**
+	 * Test if the Login of a user works
+	 */
+	private void testUserLogin() {
+		System.out.println("--Test User login --");
+		
+		// Create a DAO
+		UserJDBCDAO userDAO = new UserJDBCDAO();
+		userDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
+		userDAO.connect();
+		
+		// Use it
+		UserManagement userManagement = new UserManagement(userDAO);
+		userManagement.login("admin", "admin");
+		
+		// Disconnect
+		userDAO.disconnect();
+	}
+
 	/**
 	 * 
 	 */

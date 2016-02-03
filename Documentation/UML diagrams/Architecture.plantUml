@@ -1,66 +1,5 @@
 @startuml
-package fr.shazilgerard.findmypatient.datamodel {
-	class Patient{
-		- String name
-		- String address
-		- Doctor
-		- Room
-		- UUID ID
-		
-		+ getName()
-		+ get...()
-		+ set...()
-	}
-	class User{
-		- String name
-		- String encryptedPassword
-		- Rights rights
-		
-		+ getName()
-		+ getRights()
-		+ get()..
-		+ set...()
-	}
-	
-		class UserManagement{
-		- IDataDAO<User> userDao
-		- User currentUser
-		--
-		+ UserManagement(IDataDAO<User> userDao)
-		+ User validate(user, password)
-		+ add(User user)
-		+ delete(User user)
-		+ modify(User user)
-		+ List<User> search(User, Matcher)
-		+ getRights(User user)
-		..
-		+ login(String name, String password)
-		+ logout()
-		+ User getCurrentUser()
-	}
-	note top of UserManagement
-		Is responsible for determining 
-		the rights of the current user.
-		Other classes, like PatientManagement 
-		should ask user rights from this class
-		before executing methods.
-	end note
-	class PatientManagement{
-		- UserManagement userManagement
-		- IDataDAO<Patient> patientDao
-		
-		+ PatientMangament(UserManagement userManagement, 
-		   IDataDAO<Patient> patientDao)
-		+ add(Patient patient)
-		+ delete(Patient patient)
-		+ modify(Patient patient)
-		+ List<Patient> search(Patient, Matcher)
-	}
-	class UserDataEncryption{
-		+ Encrypt(User user)
-		+ User Decrypt(.?.)
-	}
-}
+
 package fr.shazilgerard.findmypatient.view {
 	class GUIView {
 		GUIView(IdentityController controller)
@@ -78,95 +17,25 @@ package fr.shazilgerard.findmypatient.controller {
 		+ UserManagement getUserManagement()
 		+ PatientMangement getPatientManagement()
 	}
-	note right of IdentityController
-		Is responsible for (delegating):
-		 - Instantiation and initialisation of main components.
-		 - Cleanup of objects and connections when closing.
-		 - Act as API to View.
-	end note
-
 }
-
-package fr.shazilgerard.findmypatient.config {
-	class Settings {
-		- final long serialVersionUID = 0L
-		- String DataBaseName
-		- String DataBaseEncryptedPass
-		- Etc..
-		
-		+ getAndSet()
-	}
-	class Configuration {
-		+ void read()
-		+ void save()
-		+ Settings get()
-	}
-	Serializable ()- Settings  
-	Settings -* Configuration
-}
-
 package fr.shazilgerard.findmypatient.dao {
-	interface IDataDAO<DataType>{
-		+ List<DataType> get(DataType data, 
-		  IMatcher<DataType> matcher)
-		+ DataType getAll(void)
-		+ modify(DataType data)
-		+ delete(DataType data)
-	}
-	interface IDAOManagement{
-		+ createDAO()
-		+ deleteDAO()
-	}
-	class JDBCDAO<DataType> <<abstract>>{
-		+ JDBCDAO()
-		+ createDAO()
-		+ deleteDAO()
-		..
-		+ List<DataType> get(DataType data, 
-		  IMatcher<DataType> matcher)
-		+ DataType getAll(void)
-		+ modify(DataType data)
-		+ delete(DataType data)
-		..
-		# {abstract} readDataFields()
-		# {abstract} writeDataFields()
-	}
-	class UserJDBCDAO{
-		+ UserJDBCDAO(String DBinfo..)
-		# readDataFields()
-		# writeDataFields()
-	}
-	class PatientJDBCDAO{
-		+ PatientJDBCDAO(String DBinfo..)
-		# readDataFields()
-		# writeDataFields()
-	}
+	IDataDAO <|.. JDBCDAO  
+	IDAOManagement <|.. JDBCDAO
+	JDBCDAO <|-- UserJDBCDAO
+	JDBCDAO <|-- PatientJDBCDAO 
 }
-package fr.shazilgerard.findmypatient.helper {
 
-	interface IMatcher<T>{
-		match()
-	}
-	class NameMatcher
-	class IDMatcher
-	
-	IMatcher <|.. NameMatcher
-	IMatcher <|.. IDMatcher 
+package fr.shazilgerard.findmypatient.datamodel {
+	UserManagement --> User
+	PatientManagement --> Patient
+	UserManagement <- PatientManagement
 }
 
 IdentityController *-- UserManagement
 IdentityController *-- PatientManagement
-Configuration -* IdentityController
-UserManagement <- PatientManagement
 	
 GUIView *-- IdentityController
 
-UserManagement --> User
-PatientManagement --> Patient
-
-IDataDAO <|.. JDBCDAO  
-IDAOManagement <|.. JDBCDAO
-JDBCDAO <|-- UserJDBCDAO  
-JDBCDAO <|-- PatientJDBCDAO    
+  
 
 @enduml

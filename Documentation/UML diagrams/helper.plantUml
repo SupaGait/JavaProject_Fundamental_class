@@ -1,0 +1,17 @@
+@startuml
+
+
+package fr.shazilgerard.findmypatient.helper {
+
+	interface IMatcher<T>{
+		match()
+	}
+	class NameMatcher
+	class IDMatcher
+	
+
+}
+IMatcher <|.. NameMatcher
+IMatcher <|.. IDMatcher 
+
+@enduml

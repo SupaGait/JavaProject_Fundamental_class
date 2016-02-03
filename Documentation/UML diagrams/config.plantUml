@@ -1,0 +1,23 @@
+@startuml
+
+package fr.shazilgerard.findmypatient.config {
+	class Settings {
+		- final long serialVersionUID = 0L
+		- String DataBaseName
+		- String DataBaseEncryptedPass
+		- Etc..
+		
+		+ getAndSet()
+	}
+	class Configuration {
+		+ void read()
+		+ void save()
+		+ Settings get()
+	}
+
+}
+
+Serializable ()- Settings  
+Settings -* Configuration
+
+@enduml

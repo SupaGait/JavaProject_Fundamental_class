@@ -74,11 +74,17 @@ public class IdentityController {
 		patientDAOManagement.disconnect();
 	}
 	
+	/**
+	 * @return UserManagement 
+	 */
 	public UserManagement getUserManagement()
 	{
 		return this.userManagement;
 	}
 	
+	/**
+	 * @return Patient management
+	 */
 	public PatientManagement getPatientManagement()
 	{
 		return this.patientManagement;

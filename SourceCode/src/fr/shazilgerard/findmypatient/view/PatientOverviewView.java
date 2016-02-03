@@ -104,6 +104,11 @@ public class PatientOverviewView extends JFrame implements ActionListener
 		textField.setColumns(10);
 		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO: Login
+			}
+		});
 		GridBagConstraints gbc_btnLogin = new GridBagConstraints();
 		gbc_btnLogin.fill = GridBagConstraints.VERTICAL;
 		gbc_btnLogin.gridheight = 2;

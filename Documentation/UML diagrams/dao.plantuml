@@ -1,0 +1,46 @@
+@startuml
+
+package fr.shazilgerard.findmypatient.dao {
+	interface IDataDAO<DataType>{
+		+ List<DataType> get(DataType data, 
+		  IMatcher<DataType> matcher)
+		+ DataType getAll(void)
+		+ modify(DataType data)
+		+ delete(DataType data)
+	}
+	interface IDAOManagement{
+		+ createDAO()
+		+ deleteDAO()
+	}
+	class JDBCDAO<DataType> <<abstract>>{
+		+ JDBCDAO()
+		+ createDAO()
+		+ deleteDAO()
+		..
+		+ List<DataType> get(DataType data, 
+		  IMatcher<DataType> matcher)
+		+ DataType getAll(void)
+		+ modify(DataType data)
+		+ delete(DataType data)
+		..
+		# {abstract} readDataFields()
+		# {abstract} writeDataFields()
+	}
+	class UserJDBCDAO{
+		+ UserJDBCDAO(String DBinfo..)
+		# readDataFields()
+		# writeDataFields()
+	}
+	class PatientJDBCDAO{
+		+ PatientJDBCDAO(String DBinfo..)
+		# readDataFields()
+		# writeDataFields()
+	}
+}
+
+IDataDAO <|.. JDBCDAO  
+IDAOManagement <|.. JDBCDAO
+JDBCDAO <|-- UserJDBCDAO  
+JDBCDAO <|-- PatientJDBCDAO  
+
+@enduml
