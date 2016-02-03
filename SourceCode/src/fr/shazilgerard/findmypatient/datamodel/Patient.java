@@ -1,65 +1,94 @@
-/**
- * 
- */
+
 package fr.shazilgerard.findmypatient.datamodel;
 
-import java.util.UUID;
-
-/**
- * @author Gerard
- *
- */
-public class Patient {
-	private String name;
-	private String id;
-	private String room;
+public class Patient 
+{
+	private String pId;
+	private String ssnNo;
+	private String fName;
+	private String lName;
+	private String dob;
+	private String cellNo;
+	private String email;
+	private String displayName;
 	
-	public Patient(String name, String room)
+	public Patient(String pId, String ssnNo, String fName, String lName, String dob, String cellNo, String Email, String displayName) 
 	{
-		this.id = "new";
-		this.name = name;
-		this.room = room;
-	}
-	public Patient(String name, String room, String id)
-	{
-		this.id = id;
-		this.name = name;
-		this.room = room;
+		this.pId = pId;
+		this.ssnNo = ssnNo;
+		this.fName = fName;
+		this.lName = lName;
+		this.dob = dob;
+		this.cellNo = cellNo;
+		this.email = Email;
+		this.displayName = displayName;	
+		}
+
+	public String getpId() {
+		return pId;
 	}
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
+
+	public String getSsnNo() {
+		return ssnNo;
+	}
+	
+	public void setSsnNo(String ssnNo) {
+		this.ssnNo = ssnNo;
 	}
 
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
+	public String getfName() {
+		return fName;
+	}
+	
+	public void setfName(String fName) {
+		this.fName = fName;
+	}
+	
+	public String getlName() {
+		return lName;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
+	public void setlName(String lName) {
+		this.lName = lName;
 	}
 
-	/**
-	 * @return the room
-	 */
-	public String getRoom() {
-		return room;
+	public String getDob() {
+		return dob;
 	}
 
-	/**
-	 * @param room the room to set
-	 */
-	public void setRoom(String room) {
-		this.room = room;
+	public void setDob(String dob) {
+		this.dob = dob;
 	}
 
+	public String getCellNo() {
+		return cellNo;
+	}
+	public void setCellNo(String cellNo) {
+		this.cellNo = cellNo;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+	
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	
+	public String toString() {
+	return "Identity is displayed pId=" + pId + ", ssnNo=" + ssnNo + ", fName =" + fName + ", lName =" + lName + ", Dob =" +dob + 
+				", cellNo=" + cellNo + ", Email=" + email + ", displayName=" + displayName  ;
+	}
+
+	
 }

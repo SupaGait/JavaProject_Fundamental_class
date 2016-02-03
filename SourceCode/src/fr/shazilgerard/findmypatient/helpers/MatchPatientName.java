@@ -13,6 +13,6 @@ public class MatchPatientName implements IMatcher<Patient> {
 
 	@Override
 	public String getSQLMatchStatement(String tableName, Patient patient) {
-		return "select * from "+tableName+" where NAME='"+patient.getName()+"'";
+		return "select * from "+tableName+" where DisplayName='"+patient.getDisplayName()+"'";
 	}
 }

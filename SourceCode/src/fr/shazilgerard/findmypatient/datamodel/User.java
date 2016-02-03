@@ -1,28 +1,23 @@
-/**
- * 
- */
+
 package fr.shazilgerard.findmypatient.datamodel;
 
-/**
- * @author Gerard
- *
- */
 public class User {
 	
 	// TODO : Implement correct user class
-	private String name;
+	private String userName;
 	private String password;
 	private String id;
 
 	public User(String name, String password)
 	{
-		this.name = name;
+		this.userName = name;
 		this.password = password;
 		this.id = "New";
 	}
+	
 	public User(String name, String password, String id)
 	{
-		this.name = name;
+		this.userName = name;
 		this.password = password;
 		this.id = id;
 	}
@@ -30,13 +25,13 @@ public class User {
 	 * @return the name
 	 */
 	public String getName() {
-		return name;
+		return userName;
 	}
 	/**
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
-		this.name = name;
+		this.userName = name;
 	}
 	/**
 	 * @return the password

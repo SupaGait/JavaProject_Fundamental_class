@@ -50,9 +50,9 @@ public class PatientOverviewTableModel extends AbstractTableModel {
 		{
 			switch(columnIndex)
 			{
-				case 0: value = this.patients.get(rowIndex).getName(); break;
-				case 1: value = this.patients.get(rowIndex).getRoom(); break;
-				case 2: value = this.patients.get(rowIndex).getId(); break;
+				case 0: value = this.patients.get(rowIndex).getDisplayName(); break;
+				case 1: value = this.patients.get(rowIndex).getDisplayName(); break;
+				case 2: value = this.patients.get(rowIndex).getDisplayName(); break;
 			}			
 		}
 		return value;

@@ -52,7 +52,7 @@ public class PatientAddView extends JFrame {
 		JButton btnAddPatient = new JButton("Add patient");
 		btnAddPatient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.getPatientManagement().add( new Patient(textFieldPatientName.getText(),textFieldPatientRoom.getText()));
+				controller.getPatientManagement().add( new Patient(textFieldPatientName.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText()));
 				dispose();
 			}
 		});
