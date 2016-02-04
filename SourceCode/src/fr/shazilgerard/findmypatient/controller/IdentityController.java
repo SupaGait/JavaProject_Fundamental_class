@@ -8,6 +8,7 @@ import fr.shazilgerard.findmypatient.dao.IDAOManagement;
 import fr.shazilgerard.findmypatient.dao.PatientJDBCDAO;
 import fr.shazilgerard.findmypatient.dao.UserJDBCDAO;
 import fr.shazilgerard.findmypatient.datamodel.PatientManagement;
+import fr.shazilgerard.findmypatient.datamodel.UserAuthority;
 import fr.shazilgerard.findmypatient.datamodel.UserManagement;
 import fr.shazilgerard.findmypatient.view.PatientOverviewView;
 
@@ -23,6 +24,7 @@ public class IdentityController {
 	private Settings settings;
 	
 	private UserManagement userManagement;
+	private UserAuthority userAuthority;
 	private PatientManagement patientManagement;
 	private IDAOManagement patientDAOManagement;
 	private IDAOManagement userDAOManagement;
@@ -30,23 +32,24 @@ public class IdentityController {
 	private PatientJDBCDAO patientJDBCDAO;
 	private UserJDBCDAO userJDBCDAO;
 	
-	private PatientOverviewView patientGUI; // TODO: Interface?
-	
 	public IdentityController()
 	{
-		settings = new Settings();
+		this.settings = new Settings();
 		
 		// Create UserJDBCDAO, save the management for cleanup
 		this.userJDBCDAO = new UserJDBCDAO();
-		this.userDAOManagement = userJDBCDAO;
+		this.userDAOManagement = this.userJDBCDAO;
 
 		// Create UserJDBCDAO, save the management for cleanup
 		this.patientJDBCDAO = new PatientJDBCDAO();
-		this.patientDAOManagement = patientJDBCDAO;
+		this.patientDAOManagement = this.patientJDBCDAO;
+		
+		// Create the User Authority
+		this.userAuthority = new UserAuthority(this.userJDBCDAO);
 		
 		// Create the Patient and User management, pass the relative DAO's
-		this.userManagement = new UserManagement(userJDBCDAO);
-		this.patientManagement = new PatientManagement(patientJDBCDAO, userManagement);
+		this.userManagement = new UserManagement(this.userJDBCDAO, this.userAuthority);
+		this.patientManagement = new PatientManagement(this.patientJDBCDAO, this.userAuthority);
 	}
 	
 	/**

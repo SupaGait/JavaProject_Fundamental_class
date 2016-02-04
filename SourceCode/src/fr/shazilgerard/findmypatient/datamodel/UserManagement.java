@@ -2,7 +2,6 @@
 package fr.shazilgerard.findmypatient.datamodel;
 
 import java.util.List;
-
 import fr.shazilgerard.findmypatient.dao.IDataDAO;
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
 import fr.shazilgerard.findmypatient.helpers.MatchUserName;
@@ -10,40 +9,59 @@ import fr.shazilgerard.findmypatient.helpers.MatchUserName;
 public class UserManagement {
 	
 	private IDataDAO<User> userDAO;
+	private UserAuthority userAuthority;
 	private MatchUserName userMatcher = new MatchUserName();
 
-	public UserManagement(IDataDAO<User> userDAO)
+	public UserManagement(IDataDAO<User> userDAO, UserAuthority userAuthority)
 	{
 		this.userDAO = userDAO;
+		this.userAuthority = userAuthority;
 	}
 	
-	public void login(String userName, String password)
-	{
-		User searchUser = new User(userName, password);
-		
-		// Search for the user
-		List<User> foundUsers = this.userDAO.search(searchUser, userMatcher);
-		if(foundUsers.size() > 0)
-		{
-			// TODO: Find user
-		}
-	}
-	
-	///////////////////////////////////////////////////////////////
+	/**
+	 * Add a new user
+	 * Username should be unique
+	 * @param user User to be added
+	 */
 	public void add(User user)
 	{
+		// TODO: check existence of username, then throw exception.
 
 	}
+	/**
+	 * Delete the user
+	 * @param user User to be deleted
+	 */
 	public void delete(User user)
 	{
 		
 	}
-	public void modify(User user)
+	/**
+	 * Update the User
+	 * @param user User to be updated
+	 */
+	public void update(User user)
 	{
 		
 	}
-	public List<User> find(IMatcher<User> matcher)
+	
+	/**
+	 * Find a user using a specific matcher
+	 * @param user User to be find
+	 * @param matcher Matched containing match logic
+	 * @return a List of found Users
+	 */
+	public List<User> find(User user, IMatcher<User> matcher)
 	{
+		return null;
+	}
+
+	/**
+	 * Find a specific User, no additional rights are necessary
+	 * @param userName
+	 * @return a List of Users who match
+	 */
+	 List<User> lookupUser(User user, IMatcher<User> matcher) {
 		return null;
 	}
 }

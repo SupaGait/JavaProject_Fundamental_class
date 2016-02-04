@@ -9,7 +9,9 @@ import fr.shazilgerard.findmypatient.controller.IdentityController;
 import fr.shazilgerard.findmypatient.dao.PatientJDBCDAO;
 import fr.shazilgerard.findmypatient.dao.UserJDBCDAO;
 import fr.shazilgerard.findmypatient.datamodel.Patient;
+import fr.shazilgerard.findmypatient.datamodel.UserAuthority;
 import fr.shazilgerard.findmypatient.datamodel.UserManagement;
+import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
 import fr.shazilgerard.findmypatient.helpers.MatchPatientName;
 
 public class ProtoTypeTesting {
@@ -26,9 +28,7 @@ public class ProtoTypeTesting {
 		testDAOCreate();
 		testDAOSearch();
 		testDAOConnection();
-		//testControllerAndDAO();
-		
-		
+		testControllerAndDAO();
 		testUserLogin();
 	}
 	
@@ -44,8 +44,16 @@ public class ProtoTypeTesting {
 		userDAO.connect();
 		
 		// Use it
-		UserManagement userManagement = new UserManagement(userDAO);
-		userManagement.login("admin", "admin");
+		UserAuthority userAuthority = new UserAuthority(userDAO);
+		UserManagement userManagement = new UserManagement(userDAO, userAuthority);
+		
+		try {
+			userAuthority.login("admin", "admin");
+			System.out.println("Logged in.");
+		} catch (NoAuthorityException e) {
+			System.out.println("No authority to enter the system");
+			//e.printStackTrace();
+		}
 		
 		// Disconnect
 		userDAO.disconnect();
@@ -99,9 +107,13 @@ public class ProtoTypeTesting {
 	private void testControllerAndDAO()
 	{
 		System.out.println("--Test identityController & dao--");
+				
 		IdentityController identityController = new IdentityController();
-		List<Patient> patients = identityController.getPatientManagement().readAll();
 		
+		// For testing, hardcode the address of DB now
+		identityController.setupDatabase("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
+		
+		List<Patient> patients = identityController.getPatientManagement().readAll();
 		printPatients(patients);
 	}
 	

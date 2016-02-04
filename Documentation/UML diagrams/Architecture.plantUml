@@ -1,41 +1,40 @@
 @startuml
 
 package fr.shazilgerard.findmypatient.view {
-	class GUIView {
-		GUIView(IdentityController controller)
-	}
+	class GUIView
 }
 package fr.shazilgerard.findmypatient.controller {
-	class IdentityController{
-		- IDAOManagement patientDaoManagement
-		- IDAOManagement userDaoManagement
-		- UserManagement userManagement
-		- Settings settings
-		
-		+ IdentityController()
-		+ getCurrentUserName()
-		+ UserManagement getUserManagement()
-		+ PatientMangement getPatientManagement()
-	}
+	class IdentityController
 }
-package fr.shazilgerard.findmypatient.dao {
-	IDataDAO <|.. JDBCDAO  
-	IDAOManagement <|.. JDBCDAO
-	JDBCDAO <|-- UserJDBCDAO
-	JDBCDAO <|-- PatientJDBCDAO 
-}
-
 package fr.shazilgerard.findmypatient.datamodel {
-	UserManagement --> User
-	PatientManagement --> Patient
-	UserManagement <- PatientManagement
+	class User
+	class Patient
+	
+	class UserManagement
+	class PatientManagement
+	class UserAuthority
 }
 
-IdentityController *-- UserManagement
-IdentityController *-- PatientManagement
-	
-GUIView *-- IdentityController
+package fr.shazilgerard.findmypatient.dao {
+	class IDataDAO  
+	class IDAOManagement
+	class JDBCDAO
+	class UserJDBCDAO
+	class PatientJDBCDAO 
+}
 
-  
+IDataDAO <|.. JDBCDAO  
+IDAOManagement <|.. JDBCDAO
+JDBCDAO <|-- UserJDBCDAO
+JDBCDAO <|-- PatientJDBCDAO 
+
+IdentityController "1" o-- UserManagement
+IdentityController "1" o-- PatientManagement
+IdentityController "1" o-- UserAuthority
+
+UserManagement --> User
+PatientManagement --> Patient
+	
+GUIView o-- IdentityController
 
 @enduml

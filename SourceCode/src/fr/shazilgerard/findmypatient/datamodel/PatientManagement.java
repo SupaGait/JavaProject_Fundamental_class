@@ -9,17 +9,16 @@ import fr.shazilgerard.findmypatient.dao.IDataDAO;
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
 
 public class PatientManagement {
-	private UserManagement userManagement;
+	private UserAuthority userAuthority;
 	private IDataDAO<Patient> patientDAO;
 	
 	/**
 	 * @param patientDAO DAO responsible for patient data
-	 * @param userManagement User management which checks credentials
+	 * @param userAuthority User management which checks credentials
 	 */
-	public PatientManagement(IDataDAO<Patient> patientDAO, 
-			UserManagement userManagement)
+	public PatientManagement(IDataDAO<Patient> patientDAO, UserAuthority userAuthority)
 	{
-		this.userManagement = userManagement;
+		this.userAuthority = userAuthority;
 		this.patientDAO = patientDAO;
 	}
 	

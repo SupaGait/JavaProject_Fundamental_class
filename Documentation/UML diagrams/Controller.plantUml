@@ -1,0 +1,17 @@
+@startuml
+
+package fr.shazilgerard.findmypatient.controller {
+	class IdentityController{
+		- IDAOManagement patientDaoManagement
+		- IDAOManagement userDaoManagement
+		- UserManagement userManagement
+		- Settings settings
+		
+		+ IdentityController()
+		+ getCurrentUserName()
+		+ UserManagement getUserManagement()
+		+ PatientMangement getPatientManagement()
+	}
+}
+
+@enduml
