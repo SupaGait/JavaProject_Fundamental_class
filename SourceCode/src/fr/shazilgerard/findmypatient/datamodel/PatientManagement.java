@@ -70,11 +70,11 @@ public class PatientManagement {
 	 */
 	public List<Patient> readAll() throws NoAuthorityException
 	{
-		checkRights(UserRights.ReadWrite);
+		checkRights(UserRights.ReadOnly);
 		return this.patientDAO.readAll();
 	}
 	
-	public void checkRights(UserRights rights) throws NoAuthorityException
+	private void checkRights(UserRights rights) throws NoAuthorityException
 	{
 		if(this.userAuthority.getUserRights().getValue() >= rights.getValue()){
 			return;
