@@ -43,16 +43,15 @@ public class ProtoTypeTesting {
 		userDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
 		userDAO.connect();
 		
-		// Use it
+		// Test Authority functionality
 		UserAuthority userAuthority = new UserAuthority(userDAO);
-		UserManagement userManagement = new UserManagement(userDAO, userAuthority);
-		
 		try {
 			userAuthority.login("admin", "admin");
-			System.out.println("Logged in.");
+			System.out.println(String.format("Logged in as: %s", userAuthority.getUserName()) );
+			userAuthority.login("unknown use 2134", "");
+			
 		} catch (NoAuthorityException e) {
 			System.out.println("No authority to enter the system");
-			//e.printStackTrace();
 		}
 		
 		// Disconnect
@@ -106,21 +105,40 @@ public class ProtoTypeTesting {
 
 	private void testControllerAndDAO()
 	{
-		System.out.println("--Test identityController & dao--");
+		System.out.println("--Test identityController with login and dao--");
 				
 		IdentityController identityController = new IdentityController();
 		
-		// For testing, hardcode the address of DB now
+		// For testing, hard-code the address of DB now
 		identityController.setupDatabase("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
 		
-		List<Patient> patients = identityController.getPatientManagement().readAll();
-		printPatients(patients);
+		// Login : Make sure admin admin is in database
+		try {
+			identityController.getUserAuthority().login("admin", "admin");
+		} catch (NoAuthorityException e1) {
+			e1.printStackTrace();
+		}
+		
+		// DAO : get all patients
+		List<Patient> patients = null;
+		try {
+			patients = identityController.getPatientManagement().readAll();
+		} catch (NoAuthorityException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Fetched: " + patients.size() + " patients from the DB.");
+		
+		identityController.closeDataBase();
 	}
 	
 	private void printPatients(List<Patient> patients)
 	{
-		for (Patient patient : patients) {
-			System.out.println( String.format("%s %s", patient.getpId() , patient.getfName()) );
+		if(patients != null)
+		{
+			for (Patient patient : patients) {
+				System.out.println( String.format("%s %s", patient.getpId() , patient.getfName()) );
+			}
 		}
 	}
 }

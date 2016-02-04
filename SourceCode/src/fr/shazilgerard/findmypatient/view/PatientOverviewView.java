@@ -22,6 +22,7 @@ import java.awt.GridLayout;
 
 import fr.shazilgerard.findmypatient.controller.IdentityController;
 import fr.shazilgerard.findmypatient.datamodel.Patient;
+import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -194,7 +195,13 @@ public class PatientOverviewView extends JFrame implements ActionListener
 		if(source.equals(btnListAllPatients))
 		{
 			// Retrieve the pations
-			java.util.List<Patient> allPatients = this.identityController.getPatientManagement().readAll();
+			java.util.List<Patient> allPatients = null;
+			try {
+				allPatients = this.identityController.getPatientManagement().readAll();
+			} catch (NoAuthorityException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 			//Update the table list
 			modelPatientOverview.setPatients(allPatients);

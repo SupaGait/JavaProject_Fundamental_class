@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 
 import fr.shazilgerard.findmypatient.controller.IdentityController;
 import fr.shazilgerard.findmypatient.datamodel.Patient;
+import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
 
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
@@ -100,7 +101,12 @@ public class PatientEditView extends JFrame {
 				patient.setDisplayName(textFieldRoom.getText());
 				
 				// Modify the patient
-				controller.getPatientManagement().modify(patient);
+				try {
+					controller.getPatientManagement().modify(patient);
+				} catch (NoAuthorityException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				// Update the view
 				modelPatientOverview.fireTableDataChanged();  

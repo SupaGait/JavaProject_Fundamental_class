@@ -36,9 +36,10 @@ public class UserJDBCDAO extends JDBCDAO<User> {
 		while (resultSet.next()) {
 			String name = resultSet.getString("NAME");
 			String pass = resultSet.getString("PASSWORD");
+			String rights = resultSet.getString("RIGHTS");
 			String id = resultSet.getString("ID");
 
-			User user = new User(name, pass, id);
+			User user = new User(name, pass, rights, id);
 			userList.add(user);
 		}
 		return userList;

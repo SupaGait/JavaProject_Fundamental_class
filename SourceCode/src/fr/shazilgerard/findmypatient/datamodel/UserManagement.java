@@ -3,6 +3,8 @@ package fr.shazilgerard.findmypatient.datamodel;
 
 import java.util.List;
 import fr.shazilgerard.findmypatient.dao.IDataDAO;
+import fr.shazilgerard.findmypatient.datamodel.UserAuthority.UserRights;
+import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
 import fr.shazilgerard.findmypatient.helpers.MatchUserName;
 
@@ -55,13 +57,14 @@ public class UserManagement {
 	{
 		return null;
 	}
-
-	/**
-	 * Find a specific User, no additional rights are necessary
-	 * @param userName
-	 * @return a List of Users who match
-	 */
-	 List<User> lookupUser(User user, IMatcher<User> matcher) {
-		return null;
+	
+	public void checkRights(UserRights rights) throws NoAuthorityException
+	{
+		if(this.userAuthority.getUserRights().getValue() >= rights.getValue()){
+			return;
+		}
+		else{
+			throw new NoAuthorityException();
+		}
 	}
 }

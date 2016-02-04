@@ -93,4 +93,10 @@ public class IdentityController {
 		return this.patientManagement;
 	}
 
+	/**
+	 * @return the userAuthority
+	 */
+	public UserAuthority getUserAuthority() {
+		return userAuthority;
+	}
 }

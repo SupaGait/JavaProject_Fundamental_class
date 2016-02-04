@@ -20,9 +20,18 @@ public class UserAuthority {
 	private User currentUser = null;
 	
 	public enum UserRights{
-		None,
-		ReadOnly,
-		ReadWrite
+		None(0),
+		ReadOnly(1),
+		ReadWrite(2),
+		ReadWriteAndUserManagement(3);
+		
+		private final int rightValue;
+		UserRights(int value){
+			this.rightValue = value;
+		}
+		public int getValue(){
+			return this.rightValue;
+		}
 	}
 	
 	public UserAuthority(IDataDAO<User> userDAO)
@@ -44,11 +53,16 @@ public class UserAuthority {
 		if(foundUsers.size() > 0)
 		{
 			this.currentUser = foundUsers.get(0);
+			return;
 		}
 
 		throw new NoAuthorityException();
 	}
 	
+	/**
+	 * Get the username of the current user
+	 * @return The current user
+	 */
 	public String getUserName()
 	{
 		if(this.currentUser != null)
@@ -58,12 +72,30 @@ public class UserAuthority {
 	}
 	
 	/**
-	 * @return the User rights of the current User logged in the system
+	 * Get the rights of the current user
+	 * @return user rights
 	 */
 	public UserRights getUserRights()
 	{
-		// TODO: find rights from DB
-		return UserRights.None;
+		UserRights rights = UserRights.None;
+		if(this.currentUser != null)
+		{
+			switch(this.currentUser.getRights())
+			{
+				case "ReadOnly":
+					rights = UserRights.ReadOnly;
+					break;
+				case "ReadWrite":
+					rights = UserRights.ReadWrite;
+					break;
+				case "ReadWriteAndUserManagement":
+					rights = UserRights.ReadWriteAndUserManagement;
+					break;
+				default:
+					rights = UserRights.None;
+					break;
+			}
+		}
+		return rights;
 	}
-
 }

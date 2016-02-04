@@ -6,6 +6,7 @@ public class User {
 	// TODO : Implement correct user class
 	private String userName;
 	private String password;
+	private String rights;
 	private String id;
 
 	public User(String name, String password)
@@ -15,10 +16,11 @@ public class User {
 		this.id = "New";
 	}
 	
-	public User(String name, String password, String id)
+	public User(String name, String password, String rights, String id)
 	{
 		this.userName = name;
 		this.password = password;
+		this.rights = rights;
 		this.id = id;
 	}
 	/**
@@ -50,6 +52,12 @@ public class User {
 	 */
 	public String getId() {
 		return id;
+	}
+	/**
+	 * @return the rights
+	 */
+	public String getRights() {
+		return rights;
 	}
 
 }

@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 
 import fr.shazilgerard.findmypatient.controller.IdentityController;
 import fr.shazilgerard.findmypatient.datamodel.Patient;
+import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
 
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
@@ -52,7 +53,12 @@ public class PatientAddView extends JFrame {
 		JButton btnAddPatient = new JButton("Add patient");
 		btnAddPatient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.getPatientManagement().add( new Patient(textFieldPatientName.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText()));
+				try {
+					controller.getPatientManagement().add( new Patient(textFieldPatientName.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText()));
+				} catch (NoAuthorityException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				dispose();
 			}
 		});
