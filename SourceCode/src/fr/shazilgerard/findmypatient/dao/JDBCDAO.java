@@ -25,14 +25,34 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 	private String userName;
 	private String password;
 	protected Connection connection;
-	private PreparedStatement readAllStmt;
-	
-	// TODO: Comment
+
+	/**
+	 * Implements the logic to parse a ResultSet to a List of specific data type(s).
+	 * @param resultSet
+	 * @return A list of data types
+	 * @throws SQLException
+	 */
 	protected abstract List<DataType> parseQueryResultSet(ResultSet resultSet) throws SQLException;
+	/**
+	 * Implements the SQL logic to insert a specific dataType into the DAO
+	 * @param dataType
+	 * @return
+	 * @throws SQLException
+	 */
 	protected abstract PreparedStatement insertData(DataType dataType) throws SQLException;
+	/**
+	 * Implements the SQL logic to update a specific dataType in the DAO
+	 * @param dataType
+	 * @return
+	 * @throws SQLException
+	 */
 	protected abstract PreparedStatement updateData(DataType dataType) throws SQLException;
+	/**
+	 * Implements the SQL logic to delete a specific dataType from the DAO
+	 * @return a PreparedStatement containing the result
+	 * @throws SQLException
+	 */
 	protected abstract PreparedStatement deleteData(DataType dataType) throws SQLException;
-	
 	
 	/**
 	 * @param DBTableName name of the main table in the DB containing the elements
@@ -43,7 +63,7 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 	}
 	
 	/**
-	 * @param url Url to the JDBC database
+	 * @param url to the JDBC database
 	 * @param name User name for connection to the DB
 	 * @param password password for the connection to the DB
 	 */
@@ -62,10 +82,6 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 			// Set up the connection
 			this.connection = DriverManager.getConnection(this.url, this.userName, this.password);
 			System.out.println("SQL connection opened.");
-			
-			// Prepare the statements
-			this.readAllStmt = this.connection.prepareStatement("SELECT * FROM " + this.DBTableName);
-			
 		} 
 		catch (ClassNotFoundException | SQLException e) {
 			// TODO: create specialized exception DB connection exception.
@@ -101,7 +117,8 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 		try {
 
 			// Execute readAll query
-			ResultSet rs = this.readAllStmt.executeQuery();
+			PreparedStatement readAllStmt = this.connection.prepareStatement("SELECT * FROM " + this.DBTableName);
+			ResultSet rs = readAllStmt.executeQuery();
 
 			// Parses the data objects
 			dataList = parseQueryResultSet(rs);

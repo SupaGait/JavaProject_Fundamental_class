@@ -10,7 +10,6 @@ import fr.shazilgerard.findmypatient.dao.UserJDBCDAO;
 import fr.shazilgerard.findmypatient.datamodel.PatientManagement;
 import fr.shazilgerard.findmypatient.datamodel.UserAuthority;
 import fr.shazilgerard.findmypatient.datamodel.UserManagement;
-import fr.shazilgerard.findmypatient.view.PatientOverviewView;
 
 /**
  * @author Gerard
@@ -32,6 +31,9 @@ public class IdentityController {
 	private PatientJDBCDAO patientJDBCDAO;
 	private UserJDBCDAO userJDBCDAO;
 	
+	/**
+	 * Create a new instance of the identity controller
+	 */
 	public IdentityController()
 	{
 		this.settings = new Settings();
@@ -69,6 +71,7 @@ public class IdentityController {
 	}
 	
 	/**
+	 * Closes the connections to the database
 	 * Always needs to be called before exiting the program
 	 */
 	public void closeDataBase()

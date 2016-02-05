@@ -10,13 +10,18 @@ import fr.shazilgerard.findmypatient.datamodel.UserAuthority.UserRights;
 import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
 
+/**
+ * Contains the logic for modifying the patients in the system.
+ * @author Gerard
+ *
+ */
 public class PatientManagement {
 	private UserAuthority userAuthority;
 	private IDataDAO<Patient> patientDAO;
 	
 	/**
-	 * @param patientDAO DAO responsible for patient data
-	 * @param userAuthority User management which checks credentials
+	 * @param patientDAO DAO responsible for CRUD operations with patient data
+	 * @param userAuthority takes care of authority checks
 	 */
 	public PatientManagement(IDataDAO<Patient> patientDAO, UserAuthority userAuthority)
 	{
@@ -30,7 +35,7 @@ public class PatientManagement {
 	 */
 	public void add(Patient patient) throws NoAuthorityException
 	{
-		checkRights(UserRights.ReadWrite);
+		checkMinimalRights(UserRights.ReadWrite);
 		this.patientDAO.create(patient);
 	}
 	/**
@@ -40,7 +45,7 @@ public class PatientManagement {
 	 */
 	public void delete(Patient patient) throws NoAuthorityException
 	{
-		checkRights(UserRights.ReadWrite);
+		checkMinimalRights(UserRights.ReadWrite);
 		this.patientDAO.delete(patient);
 	}
 	/**
@@ -50,7 +55,7 @@ public class PatientManagement {
 	 */
 	public void modify(Patient patient) throws NoAuthorityException
 	{
-		checkRights(UserRights.ReadWrite);
+		checkMinimalRights(UserRights.ReadWrite);
 		this.patientDAO.update(patient);
 	}
 	/**
@@ -61,7 +66,7 @@ public class PatientManagement {
 	 */
 	public List<Patient> search(Patient patient, IMatcher<Patient> matcher) throws NoAuthorityException
 	{
-		checkRights(UserRights.ReadOnly);
+		checkMinimalRights(UserRights.ReadOnly);
 		return this.patientDAO.search(patient, matcher);
 	}
 	/**
@@ -70,11 +75,16 @@ public class PatientManagement {
 	 */
 	public List<Patient> readAll() throws NoAuthorityException
 	{
-		checkRights(UserRights.ReadOnly);
+		checkMinimalRights(UserRights.ReadOnly);
 		return this.patientDAO.readAll();
 	}
 	
-	private void checkRights(UserRights rights) throws NoAuthorityException
+	/**
+	 * Checks if the current user has the minimal authority level
+	 * @param rights minimal right level
+	 * @throws NoAuthorityException if level of current user is not sufficient
+	 */
+	private void checkMinimalRights(UserRights rights) throws NoAuthorityException
 	{
 		if(this.userAuthority.getUserRights().getValue() >= rights.getValue()){
 			return;

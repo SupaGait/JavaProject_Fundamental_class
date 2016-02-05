@@ -9,12 +9,22 @@ import fr.shazilgerard.findmypatient.datamodel.exceptions.UserAlreadyExistsExcep
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
 import fr.shazilgerard.findmypatient.helpers.MatchUserName;
 
+/**
+ * Contains the logic for modifying the users in the system.
+ * @author Gerard
+ *
+ */
 public class UserManagement {
 	
 	private IDataDAO<User> userDAO;
 	private UserAuthority userAuthority;
 	private final MatchUserName userMatcher = new MatchUserName();
 
+	/**
+	 * Creates a new instance of the User management
+	 * @param userDAO DAO which will take care of the CRUD operations
+	 * @param userAuthority authority manager
+	 */
 	public UserManagement(IDataDAO<User> userDAO, UserAuthority userAuthority)
 	{
 		this.userDAO = userDAO;
@@ -30,7 +40,7 @@ public class UserManagement {
 	 */
 	public void add(User user) throws NoAuthorityException, UserAlreadyExistsException
 	{
-		checkRights(UserRights.ReadWriteAndUserManagement);
+		checkMinimalRights(UserRights.ReadWriteAndUserManagement);
 		
 		// Check if the uses does not already exists
 		List<User> foundUsers = this.userDAO.search(user, userMatcher);
@@ -49,7 +59,7 @@ public class UserManagement {
 	 */
 	public void delete(User user) throws NoAuthorityException
 	{
-		checkRights(UserRights.ReadWriteAndUserManagement);
+		checkMinimalRights(UserRights.ReadWriteAndUserManagement);
 		this.userDAO.delete(user);
 	}
 	/**
@@ -59,7 +69,7 @@ public class UserManagement {
 	 */
 	public void update(User user) throws NoAuthorityException
 	{
-		checkRights(UserRights.ReadWriteAndUserManagement);
+		checkMinimalRights(UserRights.ReadWriteAndUserManagement);
 		this.userDAO.update(user);
 	}
 	
@@ -72,11 +82,16 @@ public class UserManagement {
 	 */
 	public List<User> find(User user, IMatcher<User> matcher) throws NoAuthorityException
 	{
-		checkRights(UserRights.ReadWriteAndUserManagement);
+		checkMinimalRights(UserRights.ReadWriteAndUserManagement);
 		return this.userDAO.search(user, userMatcher);
 	}
-	
-	private void checkRights(UserRights rights) throws NoAuthorityException
+
+	/**
+	 * Checks if the current user has the minimal authority level
+	 * @param rights minimal right level
+	 * @throws NoAuthorityException NoAuthorityException if level of current user is not sufficient
+	 */
+	private void checkMinimalRights(UserRights rights) throws NoAuthorityException
 	{
 		if(this.userAuthority.getUserRights().getValue() >= rights.getValue()){
 			return;

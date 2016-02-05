@@ -1,14 +1,25 @@
 
 package fr.shazilgerard.findmypatient.datamodel;
 
+import sun.net.NetworkClient;
+
+/**
+ * Model class, containing specific data about a single user
+ * @author Gerard
+ *
+ */
 public class User {
 	
-	// TODO : Implement correct user class
 	private String userName;
 	private String password;
 	private String rights;
 	private String id;
 
+	/**
+	 * Creates a new User object
+	 * @param name of the user
+	 * @param password of the user
+	 */
 	public User(String name, String password)
 	{
 		this.userName = name;
@@ -16,6 +27,13 @@ public class User {
 		this.id = "New";
 	}
 	
+	/**
+	 * Creates a new User object
+	 * @param name of the user
+	 * @param password of the user
+	 * @param rights associated to the user
+	 * @param id of the user
+	 */
 	public User(String name, String password, String rights, String id)
 	{
 		this.userName = name;
@@ -24,7 +42,7 @@ public class User {
 		this.id = id;
 	}
 	/**
-	 * @return the name
+	 * @return a String containing the name
 	 */
 	public String getName() {
 		return userName;
@@ -59,5 +77,4 @@ public class User {
 	public String getRights() {
 		return rights;
 	}
-
 }
