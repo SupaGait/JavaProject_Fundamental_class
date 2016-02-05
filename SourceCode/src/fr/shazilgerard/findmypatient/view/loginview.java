@@ -38,7 +38,7 @@ public class loginview
 	    
 		
 	    JFrame.setDefaultLookAndFeelDecorated(true);
-	    obj = new JFrame("Hospital Managment System");
+	    obj = new JFrame("Find  My Patient");
 		
 
 		JPanel panel  = new JPanel();
