@@ -78,7 +78,9 @@ public class loginview
 			{
 				
 			try {
-				identityController.getUserAuthority().login(loginField.toString(), passField.toString());
+				final String stringName = loginField.getText();
+				final String stringPass = passField.getPassword().toString();
+				identityController.getUserAuthority().login(stringName, stringPass);
 			} catch (NoAuthorityException | DaoLoadObjectException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
