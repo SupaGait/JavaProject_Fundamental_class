@@ -21,6 +21,8 @@ import javax.swing.JLabel;
 import java.awt.GridLayout;
 
 import fr.shazilgerard.findmypatient.controller.IdentityController;
+import fr.shazilgerard.findmypatient.dao.exceptions.DaoInitializationException;
+import fr.shazilgerard.findmypatient.dao.exceptions.DaoLoadObjectException;
 import fr.shazilgerard.findmypatient.datamodel.Patient;
 import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
 
@@ -61,7 +63,12 @@ public class PatientOverviewView extends JFrame implements ActionListener
 		createComponents();
 		
 		// For testing, hardcode the address of DB now
-		identityController.setupDatabase("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
+		try {
+			identityController.setupDatabase("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
+		} catch (DaoInitializationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void createComponents()
@@ -198,7 +205,7 @@ public class PatientOverviewView extends JFrame implements ActionListener
 			java.util.List<Patient> allPatients = null;
 			try {
 				allPatients = this.identityController.getPatientManagement().readAll();
-			} catch (NoAuthorityException e1) {
+			} catch (NoAuthorityException | DaoLoadObjectException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}

@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import fr.shazilgerard.findmypatient.controller.IdentityController;
+import fr.shazilgerard.findmypatient.dao.exceptions.DaoSaveObjectException;
 import fr.shazilgerard.findmypatient.datamodel.Patient;
 import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
 
@@ -103,7 +104,7 @@ public class PatientEditView extends JFrame {
 				// Modify the patient
 				try {
 					controller.getPatientManagement().modify(patient);
-				} catch (NoAuthorityException e1) {
+				} catch (NoAuthorityException | DaoSaveObjectException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}

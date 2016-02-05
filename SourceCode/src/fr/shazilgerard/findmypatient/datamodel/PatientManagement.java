@@ -6,6 +6,8 @@ package fr.shazilgerard.findmypatient.datamodel;
 import java.util.List;
 
 import fr.shazilgerard.findmypatient.dao.IDataDAO;
+import fr.shazilgerard.findmypatient.dao.exceptions.DaoLoadObjectException;
+import fr.shazilgerard.findmypatient.dao.exceptions.DaoSaveObjectException;
 import fr.shazilgerard.findmypatient.datamodel.UserAuthority.UserRights;
 import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
@@ -31,9 +33,10 @@ public class PatientManagement {
 	
 	/**
 	 * @param patient Patient to be added to the system
-	 * @throws NoAuthorityException thrown if the current user doesn't have sufficient rights
+	 * @throws NoAuthorityException
+	 * @throws DaoSaveObjectException 
 	 */
-	public void add(Patient patient) throws NoAuthorityException
+	public void add(Patient patient) throws NoAuthorityException, DaoSaveObjectException
 	{
 		checkMinimalRights(UserRights.ReadWrite);
 		this.patientDAO.create(patient);
@@ -41,9 +44,10 @@ public class PatientManagement {
 	/**
 	 * Delete a patient from the database
 	 * @param patient patient to be deleted
-	 * @throws NoAuthorityException thrown if the current user doesn't have sufficient rights
+	 * @throws NoAuthorityException
+	 * @throws DaoSaveObjectException 
 	 */
-	public void delete(Patient patient) throws NoAuthorityException
+	public void delete(Patient patient) throws NoAuthorityException, DaoSaveObjectException
 	{
 		checkMinimalRights(UserRights.ReadWrite);
 		this.patientDAO.delete(patient);
@@ -51,9 +55,10 @@ public class PatientManagement {
 	/**
 	 * Update the data from the given patient
 	 * @param patient to be changed
-	 * @throws NoAuthorityException thrown if the current user doesn't have sufficient rights
+	 * @throws NoAuthorityException
+	 * @throws DaoSaveObjectException 
 	 */
-	public void modify(Patient patient) throws NoAuthorityException
+	public void modify(Patient patient) throws NoAuthorityException, DaoSaveObjectException
 	{
 		checkMinimalRights(UserRights.ReadWrite);
 		this.patientDAO.update(patient);
@@ -62,18 +67,20 @@ public class PatientManagement {
 	 * @param patient patient containing fields to be searched for
 	 * @param matcher matcher selected which search for specific fields in the given patient
 	 * @return List of Patients
-	 * @throws NoAuthorityException thrown if the current user doesn't have sufficient rights
+	 * @throws NoAuthorityException
+	 * @throws DaoLoadObjectException 
 	 */
-	public List<Patient> search(Patient patient, IMatcher<Patient> matcher) throws NoAuthorityException
+	public List<Patient> search(Patient patient, IMatcher<Patient> matcher) throws NoAuthorityException, DaoLoadObjectException
 	{
 		checkMinimalRights(UserRights.ReadOnly);
 		return this.patientDAO.search(patient, matcher);
 	}
 	/**
 	 * @return a list of all patients
-	 * @throws NoAuthorityException thrown if the current user doesn't have sufficient rights
+	 * @throws NoAuthorityException
+	 * @throws DaoLoadObjectException 
 	 */
-	public List<Patient> readAll() throws NoAuthorityException
+	public List<Patient> readAll() throws NoAuthorityException, DaoLoadObjectException
 	{
 		checkMinimalRights(UserRights.ReadOnly);
 		return this.patientDAO.readAll();
@@ -82,7 +89,7 @@ public class PatientManagement {
 	/**
 	 * Checks if the current user has the minimal authority level
 	 * @param rights minimal right level
-	 * @throws NoAuthorityException if level of current user is not sufficient
+	 * @throws NoAuthorityException
 	 */
 	private void checkMinimalRights(UserRights rights) throws NoAuthorityException
 	{

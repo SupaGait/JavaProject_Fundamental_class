@@ -3,6 +3,8 @@ package fr.shazilgerard.findmypatient.datamodel;
 
 import java.util.List;
 import fr.shazilgerard.findmypatient.dao.IDataDAO;
+import fr.shazilgerard.findmypatient.dao.exceptions.DaoLoadObjectException;
+import fr.shazilgerard.findmypatient.dao.exceptions.DaoSaveObjectException;
 import fr.shazilgerard.findmypatient.datamodel.UserAuthority.UserRights;
 import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
 import fr.shazilgerard.findmypatient.datamodel.exceptions.UserAlreadyExistsException;
@@ -35,17 +37,25 @@ public class UserManagement {
 	 * Add a new user
 	 * Username should be unique
 	 * @param user User to be added
-	 * @throws NoAuthorityException thrown if the current user doesn't have sufficient rights
-	 * @throws UserAlreadyExistsException thrown if the user alread exits in the system
+	 * @throws NoAuthorityException
+	 * @throws UserAlreadyExistsException
+	 * @throws DaoSaveObjectException  
 	 */
-	public void add(User user) throws NoAuthorityException, UserAlreadyExistsException
+	public void add(User user) throws NoAuthorityException, UserAlreadyExistsException, DaoSaveObjectException
 	{
 		checkMinimalRights(UserRights.ReadWriteAndUserManagement);
 		
+		List<User> foundUsers;
 		// Check if the uses does not already exists
-		List<User> foundUsers = this.userDAO.search(user, userMatcher);
-		if(foundUsers.size() > 0)
-		{
+		try {
+			foundUsers = this.userDAO.search(user, userMatcher);
+		} catch (DaoLoadObjectException e) {
+			// There was a problem with searching, so saving is impossible.
+			throw new DaoSaveObjectException(user,e);
+		}
+		
+		// Exception if the user already exists
+		if(foundUsers.size() > 0){
 			throw new UserAlreadyExistsException();
 		}
 		
@@ -55,9 +65,10 @@ public class UserManagement {
 	/**
 	 * Delete the user
 	 * @param user User to be deleted
-	 * @throws NoAuthorityException thrown if the current user doesn't have sufficient rights
+	 * @throws NoAuthorityException
+	 * @throws DaoSaveObjectException 
 	 */
-	public void delete(User user) throws NoAuthorityException
+	public void delete(User user) throws NoAuthorityException, DaoSaveObjectException
 	{
 		checkMinimalRights(UserRights.ReadWriteAndUserManagement);
 		this.userDAO.delete(user);
@@ -65,9 +76,10 @@ public class UserManagement {
 	/**
 	 * Update the User
 	 * @param user User to be updated
-	 * @throws NoAuthorityException thrown if the current user doesn't have sufficient rights
+	 * @throws NoAuthorityException
+	 * @throws DaoSaveObjectException 
 	 */
-	public void update(User user) throws NoAuthorityException
+	public void update(User user) throws NoAuthorityException, DaoSaveObjectException
 	{
 		checkMinimalRights(UserRights.ReadWriteAndUserManagement);
 		this.userDAO.update(user);
@@ -78,9 +90,10 @@ public class UserManagement {
 	 * @param user User to be find
 	 * @param matcher Matched containing match logic
 	 * @return a List of found Users
-	 * @throws NoAuthorityException thrown if the current user doesn't have sufficient rights
+	 * @throws NoAuthorityException
+	 * @throws DaoLoadObjectException 
 	 */
-	public List<User> find(User user, IMatcher<User> matcher) throws NoAuthorityException
+	public List<User> find(User user, IMatcher<User> matcher) throws NoAuthorityException, DaoLoadObjectException
 	{
 		checkMinimalRights(UserRights.ReadWriteAndUserManagement);
 		return this.userDAO.search(user, userMatcher);
@@ -89,7 +102,7 @@ public class UserManagement {
 	/**
 	 * Checks if the current user has the minimal authority level
 	 * @param rights minimal right level
-	 * @throws NoAuthorityException NoAuthorityException if level of current user is not sufficient
+	 * @throws NoAuthorityException
 	 */
 	private void checkMinimalRights(UserRights rights) throws NoAuthorityException
 	{

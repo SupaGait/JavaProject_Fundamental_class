@@ -11,6 +11,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.shazilgerard.findmypatient.dao.exceptions.DaoInitializationException;
+import fr.shazilgerard.findmypatient.dao.exceptions.DaoLoadObjectException;
+import fr.shazilgerard.findmypatient.dao.exceptions.DaoSaveObjectException;
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
 
 /**
@@ -75,7 +78,7 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 	}
 	
 	@Override
-	public void connect() {
+	public void connect() throws DaoInitializationException {
 		try {
 			Class.forName("org.apache.derby.jdbc.ClientDriver");
 			
@@ -84,8 +87,7 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 			System.out.println("SQL connection opened.");
 		} 
 		catch (ClassNotFoundException | SQLException e) {
-			// TODO: create specialized exception DB connection exception.
-			e.printStackTrace();
+			throw new DaoInitializationException(this, e);
 		}
 	}
 
@@ -100,19 +102,18 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 	}
 	
 	@Override
-	public void create(DataType data) {
+	public void create(DataType data) throws DaoSaveObjectException {
 		try {
 			// Get and execute the query
 			PreparedStatement insertDataStmt = insertData(data);
 			insertDataStmt.execute();
-			
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new DaoSaveObjectException(data, e);
 		}
 	}
 
 	@Override
-	public List<DataType> readAll() {
+	public List<DataType> readAll() throws DaoLoadObjectException {
 		List<DataType> dataList = new ArrayList<DataType>();
 		try {
 
@@ -124,13 +125,13 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 			dataList = parseQueryResultSet(rs);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new DaoLoadObjectException(dataList, e);
 		}
 		return dataList;
 	}
 
 	@Override
-	public List<DataType> search(DataType data, IMatcher<DataType> matcher) {
+	public List<DataType> search(DataType data, IMatcher<DataType> matcher) throws DaoLoadObjectException {
 		List<DataType> dataList = new ArrayList<DataType>();
 
 		try {
@@ -143,33 +144,32 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 			dataList = parseQueryResultSet(rs);
 
 		} catch (Exception e) {
-			e.printStackTrace();
-
+			throw new DaoLoadObjectException(dataList, e);
 		}
 		return dataList;
 	}
 
 	@Override
-	public void update(DataType data){
+	public void update(DataType data) throws DaoSaveObjectException{
 		try {
 			// Get and execute the query
 			PreparedStatement insertDataStmt = updateData(data);
 			insertDataStmt.execute();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new DaoSaveObjectException(data, e);
 		}
 	}
 
 	@Override
-	public void delete(DataType data) {
+	public void delete(DataType data) throws DaoSaveObjectException {
 		try {
 			// Get and execute the query
 			PreparedStatement deleteDataStmt = deleteData(data);
 			deleteDataStmt.execute();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new DaoSaveObjectException(data, e);
 		}
 	}
 

@@ -7,6 +7,7 @@ import fr.shazilgerard.findmypatient.config.Settings;
 import fr.shazilgerard.findmypatient.dao.IDAOManagement;
 import fr.shazilgerard.findmypatient.dao.PatientJDBCDAO;
 import fr.shazilgerard.findmypatient.dao.UserJDBCDAO;
+import fr.shazilgerard.findmypatient.dao.exceptions.DaoInitializationException;
 import fr.shazilgerard.findmypatient.datamodel.PatientManagement;
 import fr.shazilgerard.findmypatient.datamodel.UserAuthority;
 import fr.shazilgerard.findmypatient.datamodel.UserManagement;
@@ -59,8 +60,9 @@ public class IdentityController {
 	 * @param url Url to the JDBC database
 	 * @param name User name for connection to the DB
 	 * @param password password for the connection to the DB
+	 * @throws DaoInitializationException 
 	 */
-	public void setupDatabase(String url, String name, String password)
+	public void setupDatabase(String url, String name, String password) throws DaoInitializationException
 	{
 		patientJDBCDAO.setDatabaseConnection(url, name, password);
 		userJDBCDAO.setDatabaseConnection(url, name, password);

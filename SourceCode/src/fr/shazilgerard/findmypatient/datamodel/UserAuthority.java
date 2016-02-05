@@ -4,6 +4,7 @@
 package fr.shazilgerard.findmypatient.datamodel;
 
 import fr.shazilgerard.findmypatient.dao.IDataDAO;
+import fr.shazilgerard.findmypatient.dao.exceptions.DaoLoadObjectException;
 import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
 import fr.shazilgerard.findmypatient.helpers.MatchUserName;
 
@@ -42,9 +43,10 @@ public class UserAuthority {
 	/**
 	 * @param userName name to log in with
 	 * @param password password to log in with
-	 * @throws NoAuthorityException User not found, no authority
+	 * @throws NoAuthorityException
+	 * @throws DaoLoadObjectException 
 	 */
-	public void login(String userName, String password) throws NoAuthorityException
+	public void login(String userName, String password) throws NoAuthorityException, DaoLoadObjectException
 	{
 		User searchUser = new User(userName, password);
 		
