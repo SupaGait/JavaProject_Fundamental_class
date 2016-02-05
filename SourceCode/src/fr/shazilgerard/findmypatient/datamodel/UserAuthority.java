@@ -54,23 +54,37 @@ public class UserAuthority {
 		List<User> foundUsers = this.userDAO.search(searchUser, userMatcher);
 		if(foundUsers.size() > 0)
 		{
-			this.currentUser = foundUsers.get(0);
-			return;
+			User foundUser = foundUsers.get(0);
+			
+			// Check the password matches
+			if(foundUser.getPassword().equals(password)){
+				this.currentUser = foundUser;
+				return;
+			}
 		}
-
+		
+		// User with matching password not founds
 		throw new NoAuthorityException();
 	}
 	
 	/**
+	 * Current user is logged out
+	 */
+	public void logout()
+	{
+		this.currentUser = null;
+	}
+	
+	/**
 	 * Get the username of the current user
-	 * @return The current user
+	 * @return The current user, or empty of no user logged in
 	 */
 	public String getUserName()
 	{
 		if(this.currentUser != null)
 			return this.currentUser.getName();
 		else
-			return "No user logged in";
+			return "";
 	}
 	
 	/**

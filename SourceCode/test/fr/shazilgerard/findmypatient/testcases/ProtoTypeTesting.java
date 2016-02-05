@@ -37,44 +37,8 @@ public class ProtoTypeTesting {
 		testDAOSearch().run();
 		testDAOConnectionWithReadAll().run();
 		testControllerAndDAO().run();
-		testUserLogin().run();
+		testUserAuthority().run();
 	}
-	
-	
-	/**
-	 * Test if the Login of a user works
-	 * @throws Exception 
-	 */
-	private TestWrapper testUserLogin(){
-		TestWrapper test = new TestWrapper() {	
-			
-			@Override
-			public void test() throws Exception {
-				System.out.println("--Test User login --");
-				
-				// Create a DAO
-				UserJDBCDAO userDAO = new UserJDBCDAO();
-				userDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
-				userDAO.connect();
-				
-				// Test Authority functionality
-				UserAuthority userAuthority = new UserAuthority(userDAO);
-				try {
-					userAuthority.login("admin", "admin");
-					System.out.println(String.format("Logged in as: %s", userAuthority.getUserName()) );
-					userAuthority.login("unknown use 2134", "");
-					
-				} catch (NoAuthorityException e) {
-					System.out.println("No authority to enter the system");
-				}
-				
-				// Disconnect
-				userDAO.disconnect();
-			}
-		};
-		return test;
-	}
-
 	/**
 	 * Test if DAO create works
 	 */
@@ -148,9 +112,72 @@ public class ProtoTypeTesting {
 		};
 		return test;
 	}
-
+	
+	
 	/**
-	 * Test if the authorization works
+	 * Test if the Login of a user works
+	 * @throws Exception 
+	 */
+	private TestWrapper testUserAuthority(){
+		TestWrapper test = new TestWrapper() {	
+			
+			@Override
+			public void test() throws Exception {
+				System.out.println("--Test User authority --");
+				
+				// Create a user DAO
+				UserJDBCDAO userDAO = new UserJDBCDAO();
+				userDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
+				userDAO.connect();
+				
+				// Test Authority functionality
+				UserAuthority userAuthority = new UserAuthority(userDAO);
+				
+				// Log in as admin and read and get rights
+				userAuthority.login("admin", "admin");
+				System.out.println(String.format("Logged in as: %s, Rights: %s", 
+						userAuthority.getUserName(),
+						userAuthority.getUserRights()) );
+				
+				// Test logout
+				userAuthority.logout();
+				if(!userAuthority.getUserName().equals(""))
+					throw new Exception("Logout not working");
+				
+				// Test without password
+				{
+					boolean userRejected = false;
+					try {
+						userAuthority.login("admin", "");
+					} catch (NoAuthorityException e) {
+						userRejected = true;
+					}
+					if(!userRejected)
+						throw new Exception("Password check not working");
+				}
+				
+				// Test unknown user, should be rejected
+				{
+					boolean userRejected = false;
+					try {
+						userAuthority.login("348942njasdh", "");
+					} catch (NoAuthorityException e) {
+						userRejected = true;
+					}
+					if(!userRejected)
+						throw new Exception("Rejecting unkown users not working");
+				}
+
+				// Disconnect
+				userDAO.disconnect();
+			}
+		};
+		return test;
+	}
+
+	
+	/**
+	 * Test if the authorization integrated with controller works
 	 * @return
 	 */
 	private TestWrapper testControllerAndDAO()

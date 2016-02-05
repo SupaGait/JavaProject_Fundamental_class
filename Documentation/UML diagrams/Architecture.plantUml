@@ -16,24 +16,26 @@ package fr.shazilgerard.findmypatient.datamodel {
 }
 
 package fr.shazilgerard.findmypatient.dao {
-	class IDataDAO  
-	class IDAOManagement
-	class JDBCDAO
+	interface IDataDAO  
+	interface IDAOManagement
+	abstract class JDBCDAO
 	class UserJDBCDAO
 	class PatientJDBCDAO 
 }
-
 IDataDAO <|.. JDBCDAO  
 IDAOManagement <|.. JDBCDAO
 JDBCDAO <|-- UserJDBCDAO
 JDBCDAO <|-- PatientJDBCDAO 
 
-IdentityController "1" o-- UserManagement
-IdentityController "1" o-- PatientManagement
-IdentityController "1" o-- UserAuthority
+IdentityController o-- "1" UserManagement
+IdentityController o-- "1" PatientManagement
+IdentityController o-- "1" UserAuthority
 
 UserManagement --> User
 PatientManagement --> Patient
+UserAuthority --> User
+UserAuthority <- PatientManagement
+UserManagement -> UserAuthority
 	
 GUIView o-- IdentityController
 
