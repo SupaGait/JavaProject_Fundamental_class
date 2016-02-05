@@ -24,19 +24,13 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-/**
- * @author Gerard
- *
- */
+
 public class PatientEditView extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textFieldName;
 	private JTextField textFieldRoom;
-	/**
-	 * Create the frame.
-	 * @param modelPatientOverview 
-	 */
+	
 	public PatientEditView(IdentityController controller, Patient patient, PatientOverviewTableModel modelPatientOverview) {
 		setTitle("Modifiy patient details");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

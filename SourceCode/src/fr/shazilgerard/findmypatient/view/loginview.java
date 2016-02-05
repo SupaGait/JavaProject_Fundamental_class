@@ -95,13 +95,16 @@ public class loginview
 		{
 			public void actionPerformed(ActionEvent sig)
 			{
-			
+				
+				System.exit(0);
+				
 		
 			}});
 
 	
-	obj.setSize(550,300);		
+	obj.setBounds(100, 100, 550, 300);
+	obj.setResizable(false);
 	obj.setVisible(true);			
-	obj.setDefaultCloseOperation(obj.EXIT_ON_CLOSE);
+	obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
 	}}

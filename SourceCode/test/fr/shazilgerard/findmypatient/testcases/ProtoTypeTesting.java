@@ -17,7 +17,7 @@ import fr.shazilgerard.findmypatient.helpers.MatchPatientName;
 
 /**
  * Testing different functionalities of the PatientFind application
- * @author Gerard
+ * 
  */
 public class ProtoTypeTesting {
 	public static void main(String[] args) 
@@ -218,7 +218,7 @@ public class ProtoTypeTesting {
 	
 	/**
 	 * Print patients
-	 * @param patients
+	 * 
 	 */
 	private void printPatients(List<Patient> patients)
 	{
