@@ -275,7 +275,7 @@ public class PatientEditView extends JFrame {
 				} catch (NoAuthorityException e1) {
 					JOptionPane.showMessageDialog(contentPane, "No authority to delete patient", "delete failed", JOptionPane.ERROR_MESSAGE);
 				} catch (DaoSaveObjectException e1) {
-					JOptionPane.showMessageDialog(contentPane, "Error while deleting patient", "delete failed", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(contentPane, "Error while saving patient", "save failed", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				// Update the view and close

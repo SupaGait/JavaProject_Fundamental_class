@@ -35,7 +35,6 @@ public class PatientSearchComboBoxModel implements ComboBoxModel  {
 	 */
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
 		return searchMethods.size();
 	}
 
@@ -52,8 +51,6 @@ public class PatientSearchComboBoxModel implements ComboBoxModel  {
 	 */
 	@Override
 	public void addListDataListener(ListDataListener l) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
@@ -61,7 +58,6 @@ public class PatientSearchComboBoxModel implements ComboBoxModel  {
 	 */
 	@Override
 	public void removeListDataListener(ListDataListener l) {
-		// TODO Auto-generated method stub
 		
 	}
 

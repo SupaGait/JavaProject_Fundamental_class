@@ -47,7 +47,6 @@ public class PatientJDBCDAO extends JDBCDAO<Patient> {
 	{
 		PreparedStatement stmt = this.connection.prepareStatement("INSERT INTO PATIENTS(SSN, FNAME, LNAME, DOB, CELLNO, EMAIL, DISPLAYNAME, ROOMNO) VALUES(?,?,?,?,?,?,?,?)");
 		
-		
 		stmt.setString(1, patient.getSsnNo());
 		stmt.setString(2, patient.getfName());
 		stmt.setString(3, patient.getlName());
@@ -62,16 +61,17 @@ public class PatientJDBCDAO extends JDBCDAO<Patient> {
 	@Override
 	protected PreparedStatement updateData(Patient patient) throws SQLException
 	{
-		PreparedStatement stmt = this.connection.prepareStatement("UPDATE PATIENTS SET ID=?, SSN=?, FNAME=?, LNAME=?, DOB=?, CELLNO=?, EMAIL=?, DISPLAYNAME=? ROOMNO=? WHERE ID=?,SSN=?, FNAME=?, LNAME=?, DOB=?, CELLNO=?, EMAIL=?, DISPLAYNAME=? , ROOMNO ");
-		stmt.setString(1, patient.getpId());
-		stmt.setString(2, patient.getSsnNo());
-		stmt.setString(3, patient.getfName());
-		stmt.setString(4, patient.getlName());
-		stmt.setString(5, patient.getDob());
-		stmt.setString(6, patient.getCellNo());
-		stmt.setString(7, patient.getEmail());
-		stmt.setString(8, patient.getDisplayName());
+		PreparedStatement stmt = this.connection.prepareStatement("UPDATE PATIENTS SET SSN=?, FNAME=?, LNAME=?, DOB=?, CELLNO=?, EMAIL=?, DISPLAYNAME=?, ROOMNO=? WHERE ID=?");
+		stmt.setString(1, patient.getSsnNo());
+		stmt.setString(2, patient.getfName());
+		stmt.setString(3, patient.getlName());
+		stmt.setString(4, patient.getDob());
+		stmt.setString(5, patient.getCellNo());
+		stmt.setString(6, patient.getEmail());
+		stmt.setString(7, patient.getDisplayName());
 		stmt.setString(8, patient.getroomNo());
+		
+		stmt.setString(9, patient.getpId());
 		return stmt;
 	}
 	@Override

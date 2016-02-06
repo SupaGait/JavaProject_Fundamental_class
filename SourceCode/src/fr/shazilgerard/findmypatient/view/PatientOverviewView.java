@@ -45,8 +45,7 @@ import javax.swing.JComboBox;
  */
 public class PatientOverviewView extends JFrame implements ActionListener
 {
-	
-	IdentityController identityController; // TODO: Create interface?
+	IdentityController identityController;
 
 	private JPanel contentPane;
 	private JTable tablePatients;

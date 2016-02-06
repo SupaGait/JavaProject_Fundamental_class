@@ -16,6 +16,8 @@ import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
@@ -69,9 +71,12 @@ public class PatientAddView extends JFrame {
 									textFieldEmail.getText(),
 									textFieldDisplayName.getText(),
 									textFieldRoom.getText()));
-				} catch (NoAuthorityException | DaoSaveObjectException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (NoAuthorityException e1) {
+					JOptionPane.showMessageDialog(contentPane, "No authority to add a patient", "Add patient failed", JOptionPane.ERROR_MESSAGE);
+				}
+				catch ( DaoSaveObjectException e1) 
+				{
+					JOptionPane.showMessageDialog(contentPane, "Error while adding patient", "Add patient failed", JOptionPane.ERROR_MESSAGE);
 				}
 				dispose();
 			}

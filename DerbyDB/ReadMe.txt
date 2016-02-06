@@ -1,0 +1,1 @@
+Place this DB in the derby /bin folder 
