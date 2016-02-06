@@ -12,6 +12,11 @@ public class MatchPatientDisplayName implements IMatcher<Patient> {
 	
 	@Override
 	public String getSQLMatchStatement(String tableName, Patient patient) {
-		return "select * from "+tableName+" where DisplayName='"+patient.getDisplayName()+"'";
+		return "select * from "+tableName+" where DISPLAYNAME='"+patient.getDisplayName()+"'";
+	}
+	
+	@Override
+	public String toString() {
+		return "Full name";
 	}
 }
