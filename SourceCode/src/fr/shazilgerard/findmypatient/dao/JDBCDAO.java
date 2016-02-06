@@ -17,7 +17,7 @@ import fr.shazilgerard.findmypatient.dao.exceptions.DaoSaveObjectException;
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
 
 /**
- * @author Gerard
+ *
  * @param <DataType> DataDAO type which is saved and retrieved through the DAO methods
  *
  */

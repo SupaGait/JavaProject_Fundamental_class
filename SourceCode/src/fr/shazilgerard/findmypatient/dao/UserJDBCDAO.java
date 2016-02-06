@@ -13,10 +13,7 @@ import fr.shazilgerard.findmypatient.datamodel.Patient;
 import fr.shazilgerard.findmypatient.datamodel.User;
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
 
-/**
- * @author Gerard
- *
- */
+
 public class UserJDBCDAO extends JDBCDAO<User> {
 
 	public UserJDBCDAO()

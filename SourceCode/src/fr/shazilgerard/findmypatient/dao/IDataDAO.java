@@ -9,10 +9,7 @@ import fr.shazilgerard.findmypatient.dao.exceptions.DaoLoadObjectException;
 import fr.shazilgerard.findmypatient.dao.exceptions.DaoSaveObjectException;
 import fr.shazilgerard.findmypatient.helpers.IMatcher;
 
-/**
- * @author Gerard
- *
- */
+
 public interface IDataDAO<DataType> {
 	/**
 	 * Add a new element to the DAO

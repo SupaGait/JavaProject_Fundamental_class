@@ -8,6 +8,7 @@ import javax.swing.*;
 import fr.shazilgerard.findmypatient.controller.IdentityController;
 import fr.shazilgerard.findmypatient.dao.exceptions.DaoLoadObjectException;
 import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
+import sun.misc.BASE64Decoder;
 
 import java.io.*;
 
@@ -16,7 +17,7 @@ public class loginview
 {
 	private  JFrame obj;
 	private  JTextField loginField;
-	private  JPasswordField passField;
+	private  JTextField passField;
 	
 	private  JLabel username;
 	private  JLabel password;
@@ -79,10 +80,13 @@ public class loginview
 				
 			try {
 				final String stringName = loginField.getText();
-				final String stringPass = passField.getPassword().toString();
-				identityController.getUserAuthority().login(stringName, stringPass);
+				System.out.println(stringName);
+				final String stringPass = passField.getText();
+				
+				System.out.println(stringPass);
+				identityController.getUserAuthority().login(stringPass, stringPass);
 			} catch (NoAuthorityException | DaoLoadObjectException e1) {
-				// TODO Auto-generated catch block
+				
 				e1.printStackTrace();
 			}
 				

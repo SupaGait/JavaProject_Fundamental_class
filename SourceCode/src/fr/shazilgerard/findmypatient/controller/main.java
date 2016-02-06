@@ -9,15 +9,9 @@ import fr.shazilgerard.findmypatient.dao.exceptions.DaoInitializationException;
 import fr.shazilgerard.findmypatient.view.PatientOverviewView;
 import fr.shazilgerard.findmypatient.view.loginview;
 
-/**
- * @author Gerard
- *
- */
+
 public class main {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		
 		// Controller
@@ -26,7 +20,7 @@ public class main {
 		try {
 			controller.setupDatabase("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
 		} catch (DaoInitializationException e1) {
-			// TODO Auto-generated catch block
+		
 			e1.printStackTrace();
 		}
 

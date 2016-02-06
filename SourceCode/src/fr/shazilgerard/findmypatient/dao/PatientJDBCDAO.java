@@ -11,10 +11,7 @@ import java.util.List;
 
 import fr.shazilgerard.findmypatient.datamodel.Patient;
 
-/**
- * @author Gerard
- *
- */
+
 public class PatientJDBCDAO extends JDBCDAO<Patient> {
 
 	public PatientJDBCDAO()
@@ -37,8 +34,9 @@ public class PatientJDBCDAO extends JDBCDAO<Patient> {
 			String cellNo = rs.getString("cellNo");
 			String email = rs.getString("email");
 			String displayname = rs.getString("displayname");
+			String roomNo = rs.getString("roomNo");
 			
-			Patient Patient = new Patient(pId, ssnNo, fName, lName, dob, cellNo, email, displayname);
+			Patient Patient = new Patient(pId, ssnNo, fName, lName, dob, cellNo, email, displayname, roomNo);
 			patientList.add(Patient);
 		}
 		return patientList;
@@ -47,7 +45,7 @@ public class PatientJDBCDAO extends JDBCDAO<Patient> {
 	@Override
 	protected PreparedStatement insertData(Patient patient) throws SQLException
 	{
-		PreparedStatement stmt = this.connection.prepareStatement("INSERT INTO PATIENTS(SSN, FNAME, LNAME, DOB, CELLNO, EMAIL, DISPLAYNAME) VALUES(?,?,?,?,?,?,?)");
+		PreparedStatement stmt = this.connection.prepareStatement("INSERT INTO PATIENTS(SSN, FNAME, LNAME, DOB, CELLNO, EMAIL, DISPLAYNAME, ROOMNO) VALUES(?,?,?,?,?,?,?,?)");
 		
 		
 		stmt.setString(1, patient.getSsnNo());
@@ -57,13 +55,14 @@ public class PatientJDBCDAO extends JDBCDAO<Patient> {
 		stmt.setString(5, patient.getCellNo());
 		stmt.setString(6, patient.getEmail());
 		stmt.setString(7, patient.getDisplayName());
+		stmt.setString(8, patient.getroomNo());
 		
 		return stmt;
 	}
 	@Override
 	protected PreparedStatement updateData(Patient patient) throws SQLException
 	{
-		PreparedStatement stmt = this.connection.prepareStatement("UPDATE PATIENTS SET ID=?, SSN=?, FNAME=?, LNAME=?, DOB=?, CELLNO=?, EMAIL=?, DISPLAYNAME=? WHERE ID=?,SSN=?, FNAME=?, LNAME=?, DOB=?, CELLNO=?, EMAIL=?, DISPLAYNAME=? ");
+		PreparedStatement stmt = this.connection.prepareStatement("UPDATE PATIENTS SET ID=?, SSN=?, FNAME=?, LNAME=?, DOB=?, CELLNO=?, EMAIL=?, DISPLAYNAME=? ROOMNO=? WHERE ID=?,SSN=?, FNAME=?, LNAME=?, DOB=?, CELLNO=?, EMAIL=?, DISPLAYNAME=? , ROOMNO ");
 		stmt.setString(1, patient.getpId());
 		stmt.setString(2, patient.getSsnNo());
 		stmt.setString(3, patient.getfName());
@@ -72,6 +71,7 @@ public class PatientJDBCDAO extends JDBCDAO<Patient> {
 		stmt.setString(6, patient.getCellNo());
 		stmt.setString(7, patient.getEmail());
 		stmt.setString(8, patient.getDisplayName());
+		stmt.setString(8, patient.getroomNo());
 		return stmt;
 	}
 	@Override

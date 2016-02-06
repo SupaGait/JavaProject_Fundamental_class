@@ -5,7 +5,7 @@ package fr.shazilgerard.findmypatient.dao.exceptions;
 
 /**
  * A problem occurred while initializing the DAO.
- * @author Gerard
+ * 
  */
 public class DaoInitializationException extends Exception {
 	public DaoInitializationException(Object problemObject, Throwable cause) {

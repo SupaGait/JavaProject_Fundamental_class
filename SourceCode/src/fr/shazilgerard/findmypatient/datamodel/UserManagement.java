@@ -13,7 +13,6 @@ import fr.shazilgerard.findmypatient.helpers.MatchUserName;
 
 /**
  * Contains the logic for modifying the users in the system.
- * @author Gerard
  *
  */
 public class UserManagement {

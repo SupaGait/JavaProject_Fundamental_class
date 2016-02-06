@@ -5,10 +5,7 @@ package fr.shazilgerard.findmypatient.dao;
 
 import fr.shazilgerard.findmypatient.dao.exceptions.DaoInitializationException;
 
-/**
- * @author Gerard
- *
- */
+
 public interface IDAOManagement {
 	/**
 	 * Connect/initialize the DAO

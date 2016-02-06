@@ -14,7 +14,7 @@ import fr.shazilgerard.findmypatient.helpers.IMatcher;
 
 /**
  * Contains the logic for modifying the patients in the system.
- * @author Gerard
+ * 
  *
  */
 public class PatientManagement {

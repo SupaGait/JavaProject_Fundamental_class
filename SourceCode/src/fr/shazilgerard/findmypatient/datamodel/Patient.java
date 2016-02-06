@@ -11,8 +11,9 @@ public class Patient
 	private String cellNo;
 	private String email;
 	private String displayName;
+	private String roomNo;
 	
-	public Patient(String pId, String ssnNo, String fName, String lName, String dob, String cellNo, String Email, String displayName) 
+	public Patient(String pId, String ssnNo, String fName, String lName, String dob, String cellNo, String Email, String displayName, String roomNo) 
 	{
 		this.pId = pId;
 		this.ssnNo = ssnNo;
@@ -22,6 +23,7 @@ public class Patient
 		this.cellNo = cellNo;
 		this.email = Email;
 		this.displayName = displayName;	
+		this.roomNo = roomNo;
 		}
 
 	public String getpId() {
@@ -75,6 +77,8 @@ public class Patient
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+
 
 	public String getDisplayName() {
 		return displayName;
@@ -84,10 +88,17 @@ public class Patient
 		this.displayName = displayName;
 	}
 
+	public String getroomNo() {
+		return roomNo;
+	}
+
+	public void setroomNo(String roomNo) {
+		this.roomNo = roomNo;
+	}
 	
 	public String toString() {
 	return "Identity is displayed pId=" + pId + ", ssnNo=" + ssnNo + ", fName =" + fName + ", lName =" + lName + ", Dob =" +dob + 
-				", cellNo=" + cellNo + ", Email=" + email + ", displayName=" + displayName  ;
+				", cellNo=" + cellNo + ", Email=" + email + ", displayName=" + displayName + " Room No " + roomNo   ;
 	}
 
 	

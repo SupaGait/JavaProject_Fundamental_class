@@ -10,10 +10,7 @@ import fr.shazilgerard.findmypatient.helpers.MatchUserName;
 
 import java.util.List;
 
-/**
- * @author Gerard
- *
- */
+
 public class UserAuthority {
 	
 	private final MatchUserName userMatcher = new MatchUserName();

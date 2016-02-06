@@ -13,7 +13,7 @@ import fr.shazilgerard.findmypatient.datamodel.UserAuthority;
 import fr.shazilgerard.findmypatient.datamodel.UserManagement;
 
 /**
- * @author Gerard
+ *
  * 
  * The Identity identityController is in charge of reading local settings, 
  * creating the sub classes and providing access based on current login 

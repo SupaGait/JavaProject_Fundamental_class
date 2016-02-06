@@ -55,7 +55,7 @@ public class PatientAddView extends JFrame {
 		btnAddPatient.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					controller.getPatientManagement().add( new Patient(textFieldPatientName.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText()));
+					controller.getPatientManagement().add( new Patient(textFieldPatientName.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText(),textFieldPatientRoom.getText()));
 				} catch (NoAuthorityException | DaoSaveObjectException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

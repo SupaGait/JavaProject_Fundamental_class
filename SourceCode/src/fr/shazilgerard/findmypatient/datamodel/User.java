@@ -5,7 +5,6 @@ import sun.net.NetworkClient;
 
 /**
  * Model class, containing specific data about a single user
- * @author Gerard
  *
  */
 public class User {

@@ -5,7 +5,7 @@ package fr.shazilgerard.findmypatient.dao.exceptions;
 
 /**
  * An problem occurred loading loading the instance
- * @author Gerard
+ * 
  */
 public class DaoLoadObjectException extends Exception {
 	public DaoLoadObjectException(Object objectToLoad, Throwable cause)	{
