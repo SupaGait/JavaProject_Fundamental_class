@@ -53,9 +53,7 @@ public class ProtoTypeTesting {
 				patientDAO.connect();
 				System.out.println("Database connected !");
 				
-				
-				String newPatientName = "NewlyAddedPatient";
-				Patient patientToAdd = new Patient(newPatientName, newPatientName, newPatientName, newPatientName, newPatientName, newPatientName, newPatientName, newPatientName);
+				Patient patientToAdd = new Patient("ssnNo", "fName", "lName", "dob", "cellNo","Email","displayName","roomNo");
 				patientDAO.create(patientToAdd);
 				printPatients(patientDAO.readAll() );
 				patientDAO.disconnect();

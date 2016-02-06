@@ -125,7 +125,7 @@ public abstract class JDBCDAO<DataType> implements IDataDAO<DataType>, IDAOManag
 			dataList = parseQueryResultSet(rs);
 			
 		} catch (Exception e) {
-			throw new DaoLoadObjectException(dataList, e);
+			throw new DaoLoadObjectException(dataList.getClass(), e);
 		}
 		return dataList;
 	}

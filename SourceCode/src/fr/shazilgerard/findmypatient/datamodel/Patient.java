@@ -24,7 +24,19 @@ public class Patient
 		this.email = Email;
 		this.displayName = displayName;	
 		this.roomNo = roomNo;
-		}
+	}
+	public Patient(String ssnNo, String fName, String lName, String dob, String cellNo, String Email, String displayName, String roomNo) 
+	{
+		this.pId = "new patient";
+		this.ssnNo = ssnNo;
+		this.fName = fName;
+		this.lName = lName;
+		this.dob = dob;
+		this.cellNo = cellNo;
+		this.email = Email;
+		this.displayName = displayName;	
+		this.roomNo = roomNo;
+	}
 
 	public String getpId() {
 		return pId;
@@ -77,8 +89,6 @@ public class Patient
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-
 
 	public String getDisplayName() {
 		return displayName;

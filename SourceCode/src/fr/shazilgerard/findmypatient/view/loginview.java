@@ -67,48 +67,75 @@ public class loginview
 		cancel = new JButton("Cancel");
 		panel1.add(log_in);
 		panel1.add(cancel);
-		obj.add(panel1,BorderLayout.CENTER);
+		obj.getContentPane().add(panel1,BorderLayout.CENTER);
 		
-	
-	
-		
-		
-		log_in.addActionListener(new ActionListener()
-		{
+		// Login button
+		log_in.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
-				
-			try {
-				final String stringName = loginField.getText();
-				System.out.println(stringName);
-				final String stringPass = passField.getText();
-				
-				System.out.println(stringPass);
-				identityController.getUserAuthority().login(stringPass, stringPass);
-			} catch (NoAuthorityException | DaoLoadObjectException e1) {
-				
-				e1.printStackTrace();
-			}
-				
-				
+				tryLogin();
 			}		
 		});
-		
-		
+		// Also capture enter for login
+		passField.addKeyListener(new KeyAdapter() {
+	    	@Override
+	    	public void keyPressed(KeyEvent e) {
+	    		if(e.getKeyChar() == KeyEvent.VK_ENTER)
+	    		{
+	    			tryLogin();
+	    		}
+	    	}
+	    });
+		loginField.addKeyListener(new KeyAdapter() {
+	    	@Override
+	    	public void keyPressed(KeyEvent e) {
+	    		if(e.getKeyChar() == KeyEvent.VK_ENTER)
+	    		{
+	    			tryLogin();
+	    		}
+	    	}
+	    });
+		// Cancel button
 		cancel.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent sig)
 			{
-				
 				System.exit(0);
-				
-		
-			}});
+			}
+		});
 
+		obj.setBounds(100, 100, 550, 300);
+		obj.setResizable(false);
+		obj.setVisible(true);			
+		obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
 	
-	obj.setBounds(100, 100, 550, 300);
-	obj.setResizable(false);
-	obj.setVisible(true);			
-	obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
-	}}
+	private void tryLogin()
+	{
+		try {
+			final String stringName = loginField.getText();
+			final String stringPass = passField.getText();
+			
+			// Login
+			identityController.getUserAuthority().login(stringPass, stringPass);
+			
+			// Show new window
+			PatientOverviewView patientOverview = new PatientOverviewView(identityController);
+			patientOverview.setVisible(true);
+			
+			// Close the login window
+			log_in.setVisible(false);
+			
+		}
+		// Check for authority
+		catch (NoAuthorityException e1) {
+			
+			JOptionPane.showMessageDialog(log_in, "Incorrect credentials", "Login failed", JOptionPane.ERROR_MESSAGE);
+		}
+		// Check for DAO problems
+		catch (DaoLoadObjectException e1) {
+			
+			JOptionPane.showMessageDialog(log_in, "Problems with retrieving credential information", "Login failed", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+}
