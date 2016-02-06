@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 
@@ -23,12 +24,20 @@ import fr.shazilgerard.findmypatient.dao.exceptions.DaoInitializationException;
 import fr.shazilgerard.findmypatient.dao.exceptions.DaoLoadObjectException;
 import fr.shazilgerard.findmypatient.datamodel.Patient;
 import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
+import fr.shazilgerard.findmypatient.helpers.IMatcher;
+import fr.shazilgerard.findmypatient.helpers.MatchPatientDisplayName;
+import fr.shazilgerard.findmypatient.helpers.MatchPatientfrontName;
 
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JSpinner;
+import javax.swing.JComboBox;
 
 /**
  * @author Gerard
@@ -47,6 +56,7 @@ public class PatientOverviewView extends JFrame implements ActionListener
 	private PatientOverviewTableModel modelPatientOverview; 
 	
 	private PatientAddView patientAddView;
+	private JTextField textFieldSearchName;
 
 	/**
 	 * Create the frame.
@@ -55,16 +65,7 @@ public class PatientOverviewView extends JFrame implements ActionListener
 	public PatientOverviewView(IdentityController identityController) 
 	{
 		this.identityController = identityController;
-		
 		createComponents();
-		
-		// For testing, hardcode the address of DB now
-		try {
-			identityController.setupDatabase("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
-		} catch (DaoInitializationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	private void createComponents()
@@ -78,9 +79,47 @@ public class PatientOverviewView extends JFrame implements ActionListener
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panelHeader = new JPanel();
-		contentPane.add(panelHeader, BorderLayout.NORTH);
-		panelHeader.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		JPanel panelHeaderSearch = new JPanel();
+		contentPane.add(panelHeaderSearch, BorderLayout.NORTH);
+		panelHeaderSearch.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		
+		PatientSearchComboBoxModel modelPatientSearch = new PatientSearchComboBoxModel();
+		
+		JButton btnSearch = new JButton("SearchPatient");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Get the selected matcher
+				IMatcher<Patient> matcher = (IMatcher<Patient>)modelPatientSearch.getSelectedItem();
+				
+				// Retrieve the patients
+				java.util.List<Patient> allPatients = null;
+				try {
+					Patient patient = new Patient(
+							textFieldSearchName.getText(),
+							textFieldSearchName.getText(),
+							textFieldSearchName.getText(),
+							textFieldSearchName.getText(),
+							textFieldSearchName.getText(),
+							textFieldSearchName.getText(),
+							textFieldSearchName.getText(),
+							textFieldSearchName.getText());
+					allPatients = identityController.getPatientManagement().search(patient, matcher);
+				} catch (NoAuthorityException | DaoLoadObjectException e1) {
+					e1.printStackTrace();
+				}
+				
+				//Update the table list
+				modelPatientOverview.setPatients(allPatients);
+				
+			}
+		});
+		panelHeaderSearch.add(btnSearch);
+		JComboBox comboBox = new JComboBox(modelPatientSearch);
+		panelHeaderSearch.add(comboBox);
+		
+		textFieldSearchName = new JTextField();
+		panelHeaderSearch.add(textFieldSearchName);
+		textFieldSearchName.setColumns(40);
 		
 		JPanel panelCommands = new JPanel();
 		contentPane.add(panelCommands, BorderLayout.SOUTH);
@@ -93,9 +132,6 @@ public class PatientOverviewView extends JFrame implements ActionListener
 				
 				this.btnListAllPatients = new JButton("List all patients");
 				panelGet.add(btnListAllPatients);
-				
-				JButton btnSearch = new JButton("Search");
-				panelGet.add(btnSearch);
 				btnListAllPatients.addActionListener(this);
 		
 		JPanel panelAdd = new JPanel();

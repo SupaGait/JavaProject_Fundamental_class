@@ -8,4 +8,9 @@ public class MatchUserName implements IMatcher<User> {
 	public String getSQLMatchStatement(String tableName, User user) {
 		return "select * from "+tableName+" where NAME='"+user.getName()+"'";
 	}
+	
+	@Override
+	public String toString() {
+		return "user name";
+	}
 }

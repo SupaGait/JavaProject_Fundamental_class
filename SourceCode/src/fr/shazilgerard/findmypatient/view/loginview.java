@@ -6,6 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import fr.shazilgerard.findmypatient.controller.IdentityController;
+import fr.shazilgerard.findmypatient.dao.exceptions.DaoInitializationException;
 import fr.shazilgerard.findmypatient.dao.exceptions.DaoLoadObjectException;
 import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
 import sun.misc.BASE64Decoder;
@@ -107,8 +108,19 @@ public class loginview
 		obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
+	
 	private void tryLogin()
 	{
+		// Setup the connection to the DB
+		try {
+			this.identityController.setupDatabase();
+		} catch (DaoInitializationException e) {
+			JOptionPane.showMessageDialog(log_in, 
+							"Could not connect to the database. Make sure the database is running at: " +
+							this.identityController.getConfiguration().getDatabaseURL(), "Database connection error", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		// Login to the system.
 		try {
 			final String stringName = loginField.getText();
 			final String stringPass = passField.getText();

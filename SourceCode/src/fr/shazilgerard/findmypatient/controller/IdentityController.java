@@ -3,7 +3,8 @@
  */
 package fr.shazilgerard.findmypatient.controller;
 
-import fr.shazilgerard.findmypatient.config.Settings;
+import fr.shazilgerard.findmypatient.config.Configuration;
+import fr.shazilgerard.findmypatient.config.exceptions.ConfigurationFileException;
 import fr.shazilgerard.findmypatient.dao.IDAOManagement;
 import fr.shazilgerard.findmypatient.dao.PatientJDBCDAO;
 import fr.shazilgerard.findmypatient.dao.UserJDBCDAO;
@@ -21,7 +22,7 @@ import fr.shazilgerard.findmypatient.datamodel.UserManagement;
  *
  */
 public class IdentityController {
-	private Settings settings;
+	private Configuration configuration;
 	
 	private UserManagement userManagement;
 	private UserAuthority userAuthority;
@@ -34,10 +35,12 @@ public class IdentityController {
 	
 	/**
 	 * Create a new instance of the identity controller
+	 * @throws ConfigurationFileException 
 	 */
-	public IdentityController()
+	public IdentityController() throws ConfigurationFileException
 	{
-		this.settings = new Settings();
+		// Create the configuration
+		this.configuration = new Configuration();
 		
 		// Create UserJDBCDAO, save the management for cleanup
 		this.userJDBCDAO = new UserJDBCDAO();
@@ -53,6 +56,9 @@ public class IdentityController {
 		// Create the Patient and User management, pass the relative DAO's
 		this.userManagement = new UserManagement(this.userJDBCDAO, this.userAuthority);
 		this.patientManagement = new PatientManagement(this.patientJDBCDAO, this.userAuthority);
+		
+		// Load the configuration
+		this.configuration.load();
 	}
 	
 	/**
@@ -62,10 +68,16 @@ public class IdentityController {
 	 * @param password password for the connection to the DB
 	 * @throws DaoInitializationException 
 	 */
-	public void setupDatabase(String url, String name, String password) throws DaoInitializationException
+	public void setupDatabase() throws DaoInitializationException
 	{
-		patientJDBCDAO.setDatabaseConnection(url, name, password);
-		userJDBCDAO.setDatabaseConnection(url, name, password);
+		// Retrieve the configuration
+		final String databaseURL = this.configuration.getDatabaseURL();
+		final String databaseUser = this.configuration.getDatabaseUser();
+		final String databasePass = this.configuration.getDatabasePass();
+		
+		// Connect both DAO's ( currently same DB, but could be separated)
+		patientJDBCDAO.setDatabaseConnection(databaseURL, databaseUser, databasePass);
+		userJDBCDAO.setDatabaseConnection(databaseURL, databaseUser, databasePass);
 		
 		// Enable connections
 		userDAOManagement.connect();
@@ -103,5 +115,12 @@ public class IdentityController {
 	 */
 	public UserAuthority getUserAuthority() {
 		return userAuthority;
+	}
+
+	/**
+	 * @return the configuration
+	 */
+	public Configuration getConfiguration() {
+		return configuration;
 	}
 }

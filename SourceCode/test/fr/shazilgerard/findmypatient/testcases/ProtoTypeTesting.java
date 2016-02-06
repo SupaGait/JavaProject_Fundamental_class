@@ -233,7 +233,7 @@ public class ProtoTypeTesting {
 				IdentityController identityController = new IdentityController();
 				
 				// For testing, hard-code the address of DB now
-				identityController.setupDatabase("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
+				identityController.setupDatabase();
 				
 				// Login : Make sure admin admin is in database
 				try {
