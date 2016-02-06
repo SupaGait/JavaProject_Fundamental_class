@@ -43,7 +43,7 @@ public class loginview
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
     	
-    	JLabel label = new JLabel(new ImageIcon("./images/hospital.jpg"));
+    	JLabel label = new JLabel(new ImageIcon("./images/hospital.png"));
         panel.add(label);
 		obj.add(panel,BorderLayout.NORTH);
 	
@@ -97,7 +97,7 @@ public class loginview
 			}
 		});
 
-		obj.setBounds(100, 100, 550, 300);
+		obj.setBounds(100, 100, 550, 500);
 		obj.setResizable(false);
 		obj.setVisible(true);			
 		obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
