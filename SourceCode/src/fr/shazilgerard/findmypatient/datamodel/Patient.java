@@ -37,6 +37,18 @@ public class Patient
 		this.displayName = displayName;	
 		this.roomNo = roomNo;
 	}
+	public Patient()
+	{
+		this.pId = "new patient";
+		this.ssnNo = "";
+		this.fName = "";
+		this.lName = "";
+		this.dob = "";
+		this.cellNo = "";
+		this.email = "";
+		this.displayName = "";	
+		this.roomNo = "";
+	}
 
 	public String getpId() {
 		return pId;

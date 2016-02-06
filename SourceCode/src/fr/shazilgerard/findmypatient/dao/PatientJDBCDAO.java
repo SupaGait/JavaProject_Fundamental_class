@@ -78,7 +78,7 @@ public class PatientJDBCDAO extends JDBCDAO<Patient> {
 	protected PreparedStatement deleteData( Patient patient) throws SQLException
 	{
 		PreparedStatement stmt = this.connection.prepareStatement("DELETE FROM PATIENTS WHERE ID=? ");
-		stmt.setString(3, patient.getpId());
+		stmt.setString(1, patient.getpId());
 		return stmt;
 	}
 }

@@ -3,6 +3,7 @@
  */
 package fr.shazilgerard.findmypatient.testcases;
 
+import java.util.Iterator;
 import java.util.List;
 
 import fr.shazilgerard.findmypatient.controller.IdentityController;
@@ -13,7 +14,8 @@ import fr.shazilgerard.findmypatient.datamodel.Patient;
 import fr.shazilgerard.findmypatient.datamodel.UserAuthority;
 import fr.shazilgerard.findmypatient.datamodel.UserManagement;
 import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
-import fr.shazilgerard.findmypatient.helpers.MatchPatientName;
+import fr.shazilgerard.findmypatient.helpers.MatchPatientDisplayName;
+import fr.shazilgerard.findmypatient.helpers.MatchPatientfrontName;
 
 /**
  * Testing different functionalities of the PatientFind application
@@ -34,6 +36,7 @@ public class ProtoTypeTesting {
 	public void runTests()
 	{
 		testDAOCreate().run();
+		testDAOAddAndDelete().run();
 		testDAOSearch().run();
 		testDAOConnectionWithReadAll().run();
 		testControllerAndDAO().run();
@@ -61,7 +64,50 @@ public class ProtoTypeTesting {
 		};
 		return test;
 	}
-
+	/**
+	 * Test delete an object from the DAO
+	 * @return
+	 */
+	private TestWrapper testDAOAddAndDelete(){
+		TestWrapper test = new TestWrapper() {
+			
+			@Override
+			protected void test() throws Exception {
+				final String tempPatientDisplayName = "NewPatientToBeDeleted";
+				
+				System.out.println("--Test DAO delete--");
+				PatientJDBCDAO patientDAO = new PatientJDBCDAO();
+				patientDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
+				patientDAO.connect();
+				
+				// Add a patient
+				Patient patientToAdd = new Patient("SSNO", "fName", "lName", "dob", "cellNo","Email",tempPatientDisplayName,"roomNo");
+				patientDAO.create(patientToAdd);
+				
+				// Search the new patient
+				Patient patientToSearch = new Patient();
+				patientToSearch.setDisplayName(tempPatientDisplayName);
+				List<Patient> patientList = patientDAO.search(patientToSearch, new MatchPatientDisplayName());
+				
+				if(patientList.size() <= 0)
+					throw new Exception("Added patient did not succeed");
+				
+				printPatients(patientList);
+				// Delete the patients
+				for (Patient patient : patientList) {
+					patientDAO.delete(patient);
+				}
+				
+				if(patientList.size() > 0)
+					throw new Exception("Removing patient did not succeed");
+				else
+					System.out.println("Succesfully deleted the newly added patient.s");
+				
+				patientDAO.disconnect();
+			}
+		};
+		return test;
+	}
 	/**
 	 * Test DAO search functionality
 	 * @return
@@ -77,7 +123,7 @@ public class ProtoTypeTesting {
 				patientDAO.connect();
 				
 				Patient patientToSearch = new Patient("Gerard", null, null, null, null, null, null, null);
-				MatchPatientName matcher = new MatchPatientName();
+				MatchPatientfrontName matcher = new MatchPatientfrontName();
 				List<Patient> patientsMatched = patientDAO.search(patientToSearch, matcher);
 				
 				printPatients(patientsMatched);
@@ -223,7 +269,7 @@ public class ProtoTypeTesting {
 		if(patients != null)
 		{
 			for (Patient patient : patients) {
-				System.out.println( String.format("%s %s", patient.getpId() , patient.getfName()) );
+				System.out.println( String.format("%s %s", patient.getpId() , patient) );
 			}
 		}
 	}

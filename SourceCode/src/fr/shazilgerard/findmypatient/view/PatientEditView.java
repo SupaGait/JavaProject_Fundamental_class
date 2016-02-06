@@ -18,6 +18,8 @@ import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
@@ -26,6 +28,7 @@ import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import javax.swing.BoxLayout;
 
 
 public class PatientEditView extends JFrame {
@@ -50,14 +53,14 @@ public class PatientEditView extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		JPanel panel_1 = new JPanel();
-		contentPane.add(panel_1, BorderLayout.NORTH);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{0, 0, 0};
-		gbl_panel_1.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel_1.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-		panel_1.setLayout(gbl_panel_1);
+		JPanel PatientFieldsPanel = new JPanel();
+		contentPane.add(PatientFieldsPanel, BorderLayout.NORTH);
+		GridBagLayout gbl_PatientFieldsPanel = new GridBagLayout();
+		gbl_PatientFieldsPanel.columnWidths = new int[]{0, 0, 0};
+		gbl_PatientFieldsPanel.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_PatientFieldsPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_PatientFieldsPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		PatientFieldsPanel.setLayout(gbl_PatientFieldsPanel);
 		
 		JLabel lblDisplayname = new JLabel("DisplayName");
 		GridBagConstraints gbc_lblDisplayname = new GridBagConstraints();
@@ -65,7 +68,7 @@ public class PatientEditView extends JFrame {
 		gbc_lblDisplayname.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDisplayname.gridx = 0;
 		gbc_lblDisplayname.gridy = 0;
-		panel_1.add(lblDisplayname, gbc_lblDisplayname);
+		PatientFieldsPanel.add(lblDisplayname, gbc_lblDisplayname);
 		
 		textFieldDisplay = new JTextField();
 		textFieldDisplay.setText(patient.getDisplayName());
@@ -75,7 +78,7 @@ public class PatientEditView extends JFrame {
 		gbc_textFieldDisplay.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textFieldDisplay.gridx = 1;
 		gbc_textFieldDisplay.gridy = 0;
-		panel_1.add(textFieldDisplay, gbc_textFieldDisplay);
+		PatientFieldsPanel.add(textFieldDisplay, gbc_textFieldDisplay);
 		
 		JLabel lblFirstName = new JLabel("First name");
 		GridBagConstraints gbc_lblFirstName = new GridBagConstraints();
@@ -83,7 +86,7 @@ public class PatientEditView extends JFrame {
 		gbc_lblFirstName.insets = new Insets(0, 0, 5, 5);
 		gbc_lblFirstName.gridx = 0;
 		gbc_lblFirstName.gridy = 1;
-		panel_1.add(lblFirstName, gbc_lblFirstName);
+		PatientFieldsPanel.add(lblFirstName, gbc_lblFirstName);
 		
 		textFieldFName = new JTextField();
 		textFieldFName.setColumns(10);
@@ -93,7 +96,7 @@ public class PatientEditView extends JFrame {
 		gbc_textFieldFName.insets = new Insets(0, 0, 5, 0);
 		gbc_textFieldFName.gridx = 1;
 		gbc_textFieldFName.gridy = 1;
-		panel_1.add(textFieldFName, gbc_textFieldFName);
+		PatientFieldsPanel.add(textFieldFName, gbc_textFieldFName);
 		
 		JLabel lblLastName = new JLabel("Last name");
 		GridBagConstraints gbc_lblLastName = new GridBagConstraints();
@@ -101,7 +104,7 @@ public class PatientEditView extends JFrame {
 		gbc_lblLastName.insets = new Insets(0, 0, 5, 5);
 		gbc_lblLastName.gridx = 0;
 		gbc_lblLastName.gridy = 2;
-		panel_1.add(lblLastName, gbc_lblLastName);
+		PatientFieldsPanel.add(lblLastName, gbc_lblLastName);
 		
 		textFieldLName = new JTextField();
 		textFieldLName.setColumns(10);
@@ -111,7 +114,7 @@ public class PatientEditView extends JFrame {
 		gbc_textFieldLName.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textFieldLName.gridx = 1;
 		gbc_textFieldLName.gridy = 2;
-		panel_1.add(textFieldLName, gbc_textFieldLName);
+		PatientFieldsPanel.add(textFieldLName, gbc_textFieldLName);
 		
 		JLabel lblSocialSecurityNumber = new JLabel("SSN");
 		GridBagConstraints gbc_lblSocialSecurityNumber = new GridBagConstraints();
@@ -119,7 +122,7 @@ public class PatientEditView extends JFrame {
 		gbc_lblSocialSecurityNumber.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSocialSecurityNumber.gridx = 0;
 		gbc_lblSocialSecurityNumber.gridy = 3;
-		panel_1.add(lblSocialSecurityNumber, gbc_lblSocialSecurityNumber);
+		PatientFieldsPanel.add(lblSocialSecurityNumber, gbc_lblSocialSecurityNumber);
 		
 		textFieldSSN = new JTextField();
 		textFieldSSN.setText(patient.getSsnNo());
@@ -129,7 +132,7 @@ public class PatientEditView extends JFrame {
 		gbc_textFieldSSN.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textFieldSSN.gridx = 1;
 		gbc_textFieldSSN.gridy = 3;
-		panel_1.add(textFieldSSN, gbc_textFieldSSN);
+		PatientFieldsPanel.add(textFieldSSN, gbc_textFieldSSN);
 		
 		JLabel lblPhone = new JLabel("Phone");
 		GridBagConstraints gbc_lblPhone = new GridBagConstraints();
@@ -137,7 +140,7 @@ public class PatientEditView extends JFrame {
 		gbc_lblPhone.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPhone.gridx = 0;
 		gbc_lblPhone.gridy = 4;
-		panel_1.add(lblPhone, gbc_lblPhone);
+		PatientFieldsPanel.add(lblPhone, gbc_lblPhone);
 		
 		textFieldPhone = new JTextField();
 		textFieldPhone.setText(patient.getCellNo());
@@ -147,7 +150,7 @@ public class PatientEditView extends JFrame {
 		gbc_textFieldPhone.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textFieldPhone.gridx = 1;
 		gbc_textFieldPhone.gridy = 4;
-		panel_1.add(textFieldPhone, gbc_textFieldPhone);
+		PatientFieldsPanel.add(textFieldPhone, gbc_textFieldPhone);
 		
 		JLabel lblEmail = new JLabel("Email");
 		GridBagConstraints gbc_lblEmail = new GridBagConstraints();
@@ -155,7 +158,7 @@ public class PatientEditView extends JFrame {
 		gbc_lblEmail.insets = new Insets(0, 0, 5, 5);
 		gbc_lblEmail.gridx = 0;
 		gbc_lblEmail.gridy = 5;
-		panel_1.add(lblEmail, gbc_lblEmail);
+		PatientFieldsPanel.add(lblEmail, gbc_lblEmail);
 		
 		textFieldEmail = new JTextField();
 		textFieldEmail.setText(patient.getEmail());
@@ -165,7 +168,7 @@ public class PatientEditView extends JFrame {
 		gbc_textFieldEmail.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textFieldEmail.gridx = 1;
 		gbc_textFieldEmail.gridy = 5;
-		panel_1.add(textFieldEmail, gbc_textFieldEmail);
+		PatientFieldsPanel.add(textFieldEmail, gbc_textFieldEmail);
 		
 		JLabel lblDob = new JLabel("Dob");
 		GridBagConstraints gbc_lblDob = new GridBagConstraints();
@@ -173,7 +176,7 @@ public class PatientEditView extends JFrame {
 		gbc_lblDob.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDob.gridx = 0;
 		gbc_lblDob.gridy = 6;
-		panel_1.add(lblDob, gbc_lblDob);
+		PatientFieldsPanel.add(lblDob, gbc_lblDob);
 		
 		textFieldDob = new JTextField();
 		textFieldDob.setText(patient.getDob());
@@ -183,7 +186,7 @@ public class PatientEditView extends JFrame {
 		gbc_textFieldDob.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textFieldDob.gridx = 1;
 		gbc_textFieldDob.gridy = 6;
-		panel_1.add(textFieldDob, gbc_textFieldDob);
+		PatientFieldsPanel.add(textFieldDob, gbc_textFieldDob);
 		
 		JLabel label_5 = new JLabel("Room");
 		GridBagConstraints gbc_label_5 = new GridBagConstraints();
@@ -191,7 +194,7 @@ public class PatientEditView extends JFrame {
 		gbc_label_5.insets = new Insets(0, 0, 5, 5);
 		gbc_label_5.gridx = 0;
 		gbc_label_5.gridy = 7;
-		panel_1.add(label_5, gbc_label_5);
+		PatientFieldsPanel.add(label_5, gbc_label_5);
 		
 		textFieldRoom = new JTextField();
 		textFieldRoom.setText(patient.getroomNo());
@@ -201,7 +204,7 @@ public class PatientEditView extends JFrame {
 		gbc_textFieldRoom.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textFieldRoom.gridx = 1;
 		gbc_textFieldRoom.gridy = 7;
-		panel_1.add(textFieldRoom, gbc_textFieldRoom);
+		PatientFieldsPanel.add(textFieldRoom, gbc_textFieldRoom);
 		
 		JLabel lblId = new JLabel("ID");
 		GridBagConstraints gbc_lblId = new GridBagConstraints();
@@ -209,7 +212,7 @@ public class PatientEditView extends JFrame {
 		gbc_lblId.insets = new Insets(0, 0, 5, 5);
 		gbc_lblId.gridx = 0;
 		gbc_lblId.gridy = 8;
-		panel_1.add(lblId, gbc_lblId);
+		PatientFieldsPanel.add(lblId, gbc_lblId);
 		
 		textFieldID = new JTextField();
 		textFieldID.setEnabled(false);
@@ -220,12 +223,37 @@ public class PatientEditView extends JFrame {
 		gbc_textFieldID.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textFieldID.gridx = 1;
 		gbc_textFieldID.gridy = 8;
-		panel_1.add(textFieldID, gbc_textFieldID);
+		PatientFieldsPanel.add(textFieldID, gbc_textFieldID);
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.SOUTH);
+		panel.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JPanel panel_1 = new JPanel();
+		panel.add(panel_1);
+		panel_1.setLayout(new BorderLayout(40, 0));
+		
+		JButton btnDeletePatient = new JButton("Delete patient");
+		btnDeletePatient.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					controller.getPatientManagement().delete(patient);
+				} catch (NoAuthorityException e1) {
+					JOptionPane.showMessageDialog(contentPane, "No authority to delete patient", "delete failed", JOptionPane.ERROR_MESSAGE);
+				} catch (DaoSaveObjectException e1) {
+					JOptionPane.showMessageDialog(contentPane, "Error while deleting patient", "delete failed", JOptionPane.ERROR_MESSAGE);
+				}
+				
+				// Update the view and close
+				modelPatientOverview.fireTableDataChanged();  
+				dispose();
+			}
+		});
+		btnDeletePatient.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		panel_1.add(btnDeletePatient, BorderLayout.WEST);
 		
 		JButton btnModify = new JButton("Update changes");
+		panel_1.add(btnModify, BorderLayout.CENTER);
 		btnModify.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnModify.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -243,19 +271,17 @@ public class PatientEditView extends JFrame {
 				// Modify the patient
 				try {
 					controller.getPatientManagement().modify(patient);
-				} catch (NoAuthorityException | DaoSaveObjectException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (NoAuthorityException e1) {
+					JOptionPane.showMessageDialog(contentPane, "No authority to delete patient", "delete failed", JOptionPane.ERROR_MESSAGE);
+				} catch (DaoSaveObjectException e1) {
+					JOptionPane.showMessageDialog(contentPane, "Error while deleting patient", "delete failed", JOptionPane.ERROR_MESSAGE);
 				}
 				
-				// Update the view
+				// Update the view and close
 				modelPatientOverview.fireTableDataChanged();  
-				
 				dispose();
 			}
 		});
-		panel.setLayout(new GridLayout(0, 1, 0, 0));
-		panel.add(btnModify);
 	}
 
 }
