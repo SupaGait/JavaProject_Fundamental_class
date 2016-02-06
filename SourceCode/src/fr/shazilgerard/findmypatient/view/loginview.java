@@ -36,24 +36,17 @@ public class loginview
 	{
 		this.identityController = identityController;
 		
-	    
-		
 	    JFrame.setDefaultLookAndFeelDecorated(true);
 	    obj = new JFrame("Find  My Patient");
 		
-
 		JPanel panel  = new JPanel();
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
-   
-    	
     	
     	JLabel label = new JLabel(new ImageIcon("./images/hospital.jpg"));
         panel.add(label);
 		obj.add(panel,BorderLayout.NORTH);
 	
-		
-		
 		panel1.setLayout(new GridLayout(3,2));
 		username = new JLabel(" **** Username **** :");
 		password = new JLabel(" **** Password **** :");
@@ -119,12 +112,12 @@ public class loginview
 			// Login
 			identityController.getUserAuthority().login(stringPass, stringPass);
 			
+			// Hide the login window
+			obj.setVisible(false);
+						
 			// Show new window
 			PatientOverviewView patientOverview = new PatientOverviewView(identityController);
 			patientOverview.setVisible(true);
-			
-			// Close the login window
-			log_in.setVisible(false);
 			
 		}
 		// Check for authority
