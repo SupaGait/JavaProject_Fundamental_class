@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package fr.shazilgerard.findmypatient.view;
 
 import java.awt.BorderLayout;
@@ -142,7 +140,7 @@ public class PatientOverviewView extends JFrame implements ActionListener
 		Object source = e.getSource();
 		if(source.equals(btnListAllPatients))
 		{
-			// Retrieve the pations
+			// Retrieve the patients
 			java.util.List<Patient> allPatients = null;
 			try {
 				allPatients = this.identityController.getPatientManagement().readAll();

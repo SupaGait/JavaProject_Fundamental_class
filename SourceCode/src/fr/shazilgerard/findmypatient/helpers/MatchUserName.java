@@ -1,6 +1,4 @@
-/**
- * 
- */
+// The matcher username file
 package fr.shazilgerard.findmypatient.helpers;
 import fr.shazilgerard.findmypatient.datamodel.User;
 

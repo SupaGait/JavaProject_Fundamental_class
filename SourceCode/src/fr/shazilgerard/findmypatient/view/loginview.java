@@ -15,6 +15,8 @@ import java.io.*;
 
 public class loginview
 {
+	
+	//Variables for the GUI
 	private  JFrame obj;
 	private  JTextField loginField;
 	private  JTextField passField;
@@ -39,6 +41,8 @@ public class loginview
 	    JFrame.setDefaultLookAndFeelDecorated(true);
 	    obj = new JFrame("Find  My Patient");
 		
+	    
+	    //Declaration for the Variables and positioning of panels.
 		JPanel panel  = new JPanel();
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();

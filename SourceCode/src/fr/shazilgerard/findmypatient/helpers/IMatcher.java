@@ -1,6 +1,4 @@
-/**
- * 
- */
+//The Imatcher file
 package fr.shazilgerard.findmypatient.helpers;
 
 
