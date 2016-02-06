@@ -145,7 +145,7 @@ public class PatientOverviewView extends JFrame implements ActionListener
 			try {
 				allPatients = this.identityController.getPatientManagement().readAll();
 			} catch (NoAuthorityException | DaoLoadObjectException e1) {
-				// TODO Auto-generated catch block
+				// catch block
 				e1.printStackTrace();
 			}
 			
