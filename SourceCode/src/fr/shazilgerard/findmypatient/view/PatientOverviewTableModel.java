@@ -50,15 +50,16 @@ public class PatientOverviewTableModel extends AbstractTableModel {
 		{
 			switch(columnIndex)
 			{
-				case 0: value = this.patients.get(rowIndex).getDisplayName(); break;
-				case 1: value = this.patients.get(rowIndex).getfName(); break;
-				case 2: value = this.patients.get(rowIndex).getlName(); break;
-				case 3: value = this.patients.get(rowIndex).getSsnNo(); break;
-				case 4: value = this.patients.get(rowIndex).getCellNo(); break;
-				case 5: value = this.patients.get(rowIndex).getEmail(); break;
-				case 6: value = this.patients.get(rowIndex).getDob(); break;
-				case 7: value = this.patients.get(rowIndex).getroomNo(); break;
-				case 8: value = this.patients.get(rowIndex).getpId(); break;
+				case 0: value = this.patients.get(rowIndex).getpId(); break;
+				case 1: value = this.patients.get(rowIndex).getSsnNo(); break;
+				case 2: value = this.patients.get(rowIndex).getfName(); break;
+				case 3: value = this.patients.get(rowIndex).getlName(); break;
+				case 4: value = this.patients.get(rowIndex).getDob();  break;
+				case 5: value = this.patients.get(rowIndex).getDisplayName(); break;
+				case 6: value = this.patients.get(rowIndex).getCellNo(); break;
+				case 7: value = this.patients.get(rowIndex).getEmail();break;
+				case 8: value = this.patients.get(rowIndex).getroomNo(); break;
+				
 			}			
 		}
 		return value;
@@ -72,31 +73,31 @@ public class PatientOverviewTableModel extends AbstractTableModel {
         String name = "??";
         switch (column) {
 	        case 0:
-	            name = "Display name";
+	            name = "ID";
 	            break;
             case 1:
-                name = "First name";
+                name = "SSN";
                 break;
             case 2:
-                name = "Last name";
+                name = "Firstname";
                 break;
             case 3:
-                name = "Social security number";
+                name = "Lastname";
                 break;
             case 4:
-                name = "Phone number";
+                name = "Date of birth";
                 break;
             case 5:
-                name = "Email";
-                break;
-            case 7:
-                name = "Dob";
+                name = "Fullname";
                 break;
             case 6:
-                name = "Room number";
+                name = "Cell No";
+                break;
+            case 7:
+                name = "Email";
                 break;
             case 8:
-                name = "ID";
+                name = "Roomnumber";
                 break;
         }
         return name;
