@@ -57,16 +57,7 @@ public class PatientOverviewView extends JFrame implements ActionListener
 	public PatientOverviewView(IdentityController identityController) 
 	{
 		this.identityController = identityController;
-		
 		createComponents();
-		
-		// For testing, hardcode the address of DB now
-		try {
-			identityController.setupDatabase("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
-		} catch (DaoInitializationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	private void createComponents()
