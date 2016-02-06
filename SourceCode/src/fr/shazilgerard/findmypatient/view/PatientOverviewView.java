@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package fr.shazilgerard.findmypatient.view;
 
 import java.awt.BorderLayout;

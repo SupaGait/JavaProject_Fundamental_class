@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package fr.shazilgerard.findmypatient.view;
 
 import java.awt.BorderLayout;
@@ -26,10 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
 import java.awt.Font;
 
-/**
- * @author Gerard
- *
- */
+
 public class PatientAddView extends JFrame {
 
 	private JPanel contentPane;

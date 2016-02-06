@@ -259,14 +259,15 @@ public class PatientEditView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				// Retrieve the values
-				patient.setDisplayName(textFieldDisplay.getText());
+				patient.setSsnNo(textFieldSSN.getText());
 				patient.setfName(textFieldFName.getText());
 				patient.setlName(textFieldLName.getText());
-				patient.setSsnNo(textFieldSSN.getText());
+				patient.setDob(textFieldDob.getText());
+				patient.setDisplayName(textFieldDisplay.getText());
 				patient.setCellNo(textFieldPhone.getText());
 				patient.setEmail(textFieldEmail.getText());
 				patient.setroomNo(textFieldRoom.getText());
-				patient.setDob(textFieldDob.getText());
+				
 				
 				// Modify the patient
 				try {

@@ -16,6 +16,8 @@ import java.io.*;
 
 public class loginview
 {
+	
+	//Variables for the GUI
 	private  JFrame obj;
 	private  JTextField loginField;
 	private  JTextField passField;
@@ -40,11 +42,13 @@ public class loginview
 	    JFrame.setDefaultLookAndFeelDecorated(true);
 	    obj = new JFrame("Find  My Patient");
 		
+	    
+	    //Declaration for the Variables and positioning of panels.
 		JPanel panel  = new JPanel();
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
     	
-    	JLabel label = new JLabel(new ImageIcon("./images/hospital.jpg"));
+    	JLabel label = new JLabel(new ImageIcon("./images/hospital.png"));
         panel.add(label);
 		obj.add(panel,BorderLayout.NORTH);
 	
@@ -98,7 +102,7 @@ public class loginview
 			}
 		});
 
-		obj.setBounds(100, 100, 550, 300);
+		obj.setBounds(100, 100, 550, 500);
 		obj.setResizable(false);
 		obj.setVisible(true);			
 		obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

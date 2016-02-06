@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package fr.shazilgerard.findmypatient.testcases;
 
 import java.util.Iterator;
@@ -56,7 +54,7 @@ public class ProtoTypeTesting {
 				patientDAO.connect();
 				System.out.println("Database connected !");
 				
-				Patient patientToAdd = new Patient("ssnNo", "fName", "lName", "dob", "cellNo","Email","displayName","roomNo");
+				Patient patientToAdd = new Patient("ssnNo", "fName", "lName" ,"displayName", "dob", "cellNo","Email","roomNo");
 				patientDAO.create(patientToAdd);
 				printPatients(patientDAO.readAll() );
 				patientDAO.disconnect();
