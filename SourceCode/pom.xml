@@ -4,8 +4,6 @@
   <artifactId>findmypatient</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <build>
-    <sourceDirectory>src</sourceDirectory>
-    <testSourceDirectory>test</testSourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -14,6 +12,15 @@
           <source>1.8</source>
           <target>1.8</target>
         </configuration>
+        <executions>
+        	<execution>
+        		<goals>
+        			<goal>compile</goal>
+        			<goal>testCompile</goal>
+        		</goals>
+        		<phase>compile</phase>
+        	</execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -29,4 +36,6 @@
         <version>4.2.4.RELEASE</version>
     </dependency>
   </dependencies>
+  <name>PatientFind</name>
+  <description>Finding a patient in the hospital</description>
 </project>
