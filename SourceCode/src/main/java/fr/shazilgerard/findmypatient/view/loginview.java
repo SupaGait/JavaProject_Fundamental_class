@@ -48,7 +48,7 @@ public class loginview
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
     	
-    	JLabel label = new JLabel(new ImageIcon("./images/hospital.png"));
+    	JLabel label = new JLabel(new ImageIcon("./src/main/resources/images/hospital.png"));
         panel.add(label);
 		obj.add(panel,BorderLayout.NORTH);
 	
