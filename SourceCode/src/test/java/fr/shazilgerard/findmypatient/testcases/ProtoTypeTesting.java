@@ -1,16 +1,22 @@
 
 package fr.shazilgerard.findmypatient.testcases;
 
-import java.util.Iterator;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import fr.shazilgerard.findmypatient.config.exceptions.ConfigurationFileException;
 import fr.shazilgerard.findmypatient.controller.IdentityController;
 import fr.shazilgerard.findmypatient.dao.PatientJDBCDAO;
 import fr.shazilgerard.findmypatient.dao.UserJDBCDAO;
+import fr.shazilgerard.findmypatient.dao.exceptions.DaoInitializationException;
 import fr.shazilgerard.findmypatient.dao.exceptions.DaoLoadObjectException;
+import fr.shazilgerard.findmypatient.dao.exceptions.DaoSaveObjectException;
 import fr.shazilgerard.findmypatient.datamodel.Patient;
 import fr.shazilgerard.findmypatient.datamodel.UserAuthority;
-import fr.shazilgerard.findmypatient.datamodel.UserManagement;
 import fr.shazilgerard.findmypatient.datamodel.exceptions.NoAuthorityException;
 import fr.shazilgerard.findmypatient.helpers.MatchPatientDisplayName;
 import fr.shazilgerard.findmypatient.helpers.MatchPatientfrontName;
@@ -20,6 +26,7 @@ import fr.shazilgerard.findmypatient.helpers.MatchPatientfrontName;
  * 
  */
 public class ProtoTypeTesting {
+	/*
 	public static void main(String[] args) 
 	{
 		ProtoTypeTesting tests = new ProtoTypeTesting();
@@ -27,10 +34,7 @@ public class ProtoTypeTesting {
 		
 		System.out.println("Program ended.");
 	}
-	
-	/**
-	 * Run the different test cases
-	 */
+
 	public void runTests()
 	{
 		testDAOCreate().run();
@@ -40,119 +44,130 @@ public class ProtoTypeTesting {
 		testControllerAndDAO().run();
 		testUserAuthority().run();
 	}
+	*/
+	
+	@Before
+	public void beforeEachTest()
+	{
+		//System.out.println("Before");
+	}
+	@After
+	public void afterEatchTest()
+	{
+		//System.out.println("After");
+	}
+	
 	/**
 	 * Test if DAO create works
 	 */
-	private TestWrapper testDAOCreate(){
-		TestWrapper test = new TestWrapper() {
+	@Test
+	public void testDAOCreate(){
+		try {
+			System.out.println("--Test DAO create--");
+			PatientJDBCDAO patientDAO = new PatientJDBCDAO();
+			patientDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
+			patientDAO.connect();
+			System.out.println("Database connected !");
 			
-			@Override
-			protected void test() throws Exception {
-				System.out.println("--Test DAO create--");
-				PatientJDBCDAO patientDAO = new PatientJDBCDAO();
-				patientDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
-				patientDAO.connect();
-				System.out.println("Database connected !");
+			Patient patientToAdd = new Patient("ssnNo", "fName", "lName" ,"displayName", "dob", "cellNo","Email","roomNo");
+			patientDAO.create(patientToAdd);
+			printPatients(patientDAO.readAll() );
+			patientDAO.disconnect();
+		} catch (DaoInitializationException | DaoSaveObjectException | DaoLoadObjectException e) {
+			Assert.fail(e.getMessage());
+		}
 				
-				Patient patientToAdd = new Patient("ssnNo", "fName", "lName" ,"displayName", "dob", "cellNo","Email","roomNo");
-				patientDAO.create(patientToAdd);
-				printPatients(patientDAO.readAll() );
-				patientDAO.disconnect();
-			}
-		};
-		return test;
 	}
+	
 	/**
 	 * Test delete an object from the DAO
 	 * @return
 	 */
-	private TestWrapper testDAOAddAndDelete(){
-		TestWrapper test = new TestWrapper() {
+	@Test
+	public void testDAOAddAndDelete(){
+
+		try {
+			final String tempPatientDisplayName = "NewPatientToBeDeleted";
 			
-			@Override
-			protected void test() throws Exception {
-				final String tempPatientDisplayName = "NewPatientToBeDeleted";
-				
-				System.out.println("--Test DAO delete--");
-				PatientJDBCDAO patientDAO = new PatientJDBCDAO();
-				patientDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
-				patientDAO.connect();
-				
-				// Add a patient
-				Patient patientToAdd = new Patient("SSNO", "fName", "lName", "dob", "cellNo","Email",tempPatientDisplayName,"roomNo");
-				patientDAO.create(patientToAdd);
-				
-				// Search the new patient
-				Patient patientToSearch = new Patient();
-				patientToSearch.setDisplayName(tempPatientDisplayName);
-				List<Patient> patientList = patientDAO.search(patientToSearch, new MatchPatientDisplayName());
-				
-				if(patientList.size() <= 0)
-					throw new Exception("Added patient did not succeed");
-				
-				printPatients(patientList);
-				// Delete the patients
-				for (Patient patient : patientList) {
-					patientDAO.delete(patient);
-				}
-				
-				if(patientList.size() > 0)
-					throw new Exception("Removing patient did not succeed");
-				else
-					System.out.println("Succesfully deleted the newly added patient.s");
-				
-				patientDAO.disconnect();
+			System.out.println("--Test DAO delete--");
+			PatientJDBCDAO patientDAO = new PatientJDBCDAO();
+			patientDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
+			patientDAO.connect();
+			
+			// Add a patient
+			Patient patientToAdd = new Patient("SSNO", "fName", "lName", "dob", "cellNo","Email",tempPatientDisplayName,"roomNo");
+			patientDAO.create(patientToAdd);
+			
+			// Search the new patient
+			Patient patientToSearch = new Patient();
+			patientToSearch.setDisplayName(tempPatientDisplayName);
+			List<Patient> patientList = patientDAO.search(patientToSearch, new MatchPatientDisplayName());
+			
+			Assert.assertEquals("Added patient did not succeed",0, patientList.size());
+			/*
+			if(patientList.size() <= 0)
+				throw new Exception("Added patient did not succeed");
+			*/
+			printPatients(patientList);
+			// Delete the patients
+			for (Patient patient : patientList) {
+				patientDAO.delete(patient);
 			}
-		};
-		return test;
+			
+			if(patientList.size() > 0)
+				throw new Exception("Removing patient did not succeed");
+			else
+				System.out.println("Succesfully deleted the newly added patient.s");
+			
+			patientDAO.disconnect();
+		} catch (Exception e) {
+			Assert.fail(e.getMessage());
+		}
+
 	}
 	/**
 	 * Test DAO search functionality
 	 * @return
 	 */
-	private TestWrapper testDAOSearch() {
-		TestWrapper test = new TestWrapper() {
+	@Test
+	public void testDAOSearch() {
+		try {
+			System.out.println("--Test DAO search--");
+			PatientJDBCDAO patientDAO = new PatientJDBCDAO();
+			patientDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
+			patientDAO.connect();
 			
-			@Override
-			protected void test() throws Exception {
-				System.out.println("--Test DAO search--");
-				PatientJDBCDAO patientDAO = new PatientJDBCDAO();
-				patientDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
-				patientDAO.connect();
-				
-				Patient patientToSearch = new Patient("Gerard", null, null, null, null, null, null, null);
-				MatchPatientfrontName matcher = new MatchPatientfrontName();
-				List<Patient> patientsMatched = patientDAO.search(patientToSearch, matcher);
-				
-				printPatients(patientsMatched);
-				
-				patientDAO.disconnect();
-			}
-		};
-		return test;
+			Patient patientToSearch = new Patient("Gerard", null, null, null, null, null, null, null);
+			MatchPatientfrontName matcher = new MatchPatientfrontName();
+			List<Patient> patientsMatched = patientDAO.search(patientToSearch, matcher);
+			
+			printPatients(patientsMatched);
+			
+			patientDAO.disconnect();
+		} catch (DaoInitializationException | DaoLoadObjectException e) {
+			Assert.fail(e.getMessage());
+		}
 	}
 
 	/**
 	 * Test if setting up connection and reading patients works
 	 * @return
 	 */
-	private TestWrapper testDAOConnectionWithReadAll() {
-		TestWrapper test = new TestWrapper() {
+	@Test
+	public void testDAOConnectionWithReadAll() {
+		try {
+			System.out.println("--Test DAO connection--");
+			PatientJDBCDAO patientDAO = new PatientJDBCDAO();
+			patientDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
+			patientDAO.connect();
 			
-			@Override
-			protected void test() throws Exception {
-				System.out.println("--Test DAO connection--");
-				PatientJDBCDAO patientDAO = new PatientJDBCDAO();
-				patientDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
-				patientDAO.connect();
-				
-				List<Patient> patients = patientDAO.readAll();
-				printPatients(patients);
-				
-				patientDAO.disconnect();
-			}
-		};
-		return test;
+			List<Patient> patients = patientDAO.readAll();
+			printPatients(patients);
+			
+			patientDAO.disconnect();
+		} catch (DaoInitializationException | DaoLoadObjectException e) {
+			Assert.fail(e.getMessage());
+		}
 	}
 	
 	
@@ -160,61 +175,62 @@ public class ProtoTypeTesting {
 	 * Test if the Login of a user works
 	 * @throws Exception 
 	 */
-	private TestWrapper testUserAuthority(){
-		TestWrapper test = new TestWrapper() {	
+	@Test
+	public void testUserAuthority(){
+		try {
+			System.out.println("--Test User authority --");
 			
-			@Override
-			public void test() throws Exception {
-				System.out.println("--Test User authority --");
-				
-				// Create a user DAO
-				UserJDBCDAO userDAO = new UserJDBCDAO();
-				userDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
-				userDAO.connect();
-				
-				// Test Authority functionality
-				UserAuthority userAuthority = new UserAuthority(userDAO);
-				
-				// Log in as admin and read and get rights
-				userAuthority.login("admin", "admin");
-				System.out.println(String.format("Logged in as: %s, Rights: %s", 
-						userAuthority.getUserName(),
-						userAuthority.getUserRights()) );
-				
-				// Test logout
-				userAuthority.logout();
-				if(!userAuthority.getUserName().equals(""))
-					throw new Exception("Logout not working");
-				
-				// Test without password
-				{
-					boolean userRejected = false;
-					try {
-						userAuthority.login("admin", "");
-					} catch (NoAuthorityException e) {
-						userRejected = true;
-					}
-					if(!userRejected)
-						throw new Exception("Password check not working");
+			// Create a user DAO
+			UserJDBCDAO userDAO = new UserJDBCDAO();
+			userDAO.setDatabaseConnection("jdbc:derby://localhost:1527/PatientsDB;create=true", "root", "root");
+			userDAO.connect();
+			
+			// Test Authority functionality
+			UserAuthority userAuthority = new UserAuthority(userDAO);
+			
+			// Log in as admin and read and get rights
+			userAuthority.login("admin", "admin");
+			System.out.println(String.format("Logged in as: %s, Rights: %s", 
+					userAuthority.getUserName(),
+					userAuthority.getUserRights()) );
+			
+			// Test logout
+			userAuthority.logout();
+			if(!userAuthority.getUserName().equals(""))
+				throw new Exception("Logout not working");
+			
+			// Test without password
+			{
+				boolean userRejected = false;
+				try {
+					userAuthority.login("admin", "");
+				} catch (NoAuthorityException e) {
+					userRejected = true;
 				}
-				
-				// Test unknown user, should be rejected
-				{
-					boolean userRejected = false;
-					try {
-						userAuthority.login("348942njasdh", "");
-					} catch (NoAuthorityException e) {
-						userRejected = true;
-					}
-					if(!userRejected)
-						throw new Exception("Rejecting unkown users not working");
-				}
-
-				// Disconnect
-				userDAO.disconnect();
+				if(!userRejected)
+					Assert.fail("Password check not working");
+					//throw new Exception("Password check not working");
 			}
-		};
-		return test;
+			
+			// Test unknown user, should be rejected
+			{
+				boolean userRejected = false;
+				try {
+					userAuthority.login("348942njasdh", "");
+				} catch (NoAuthorityException e) {
+					userRejected = true;
+				}
+				if(!userRejected)
+					Assert.fail("Rejecting unkown users not working");
+					//throw new Exception("Rejecting unkown users not working");
+			}
+
+			// Disconnect
+			userDAO.disconnect();
+		} catch (Exception e) {
+			Assert.fail(e.getMessage());
+		}
+
 	}
 
 	
@@ -222,40 +238,39 @@ public class ProtoTypeTesting {
 	 * Test if the authorization integrated with controller works
 	 * @return
 	 */
-	private TestWrapper testControllerAndDAO()
+	@Test
+	public void testControllerAndDAO()
 	{
-		TestWrapper test = new TestWrapper() {
+		try {
+			System.out.println("--Test identityController with login and dao--");
 			
-			@Override
-			protected void test() throws Exception {
-				System.out.println("--Test identityController with login and dao--");
-				
-				IdentityController identityController = new IdentityController();
-				
-				// For testing, hard-code the address of DB now
-				identityController.setupDatabase();
-				
-				// Login : Make sure admin admin is in database
-				try {
-					identityController.getUserAuthority().login("admin", "admin");
-				} catch (NoAuthorityException e1) {
-					e1.printStackTrace();
-				}
-				
-				// DAO : get all patients
-				List<Patient> patients = null;
-				try {
-					patients = identityController.getPatientManagement().readAll();
-				} catch (NoAuthorityException e) {
-					e.printStackTrace();
-				}
-				
-				System.out.println("Fetched: " + patients.size() + " patients from the DB.");
-				
-				identityController.closeDataBase();
+			IdentityController identityController = new IdentityController();
+			
+			// For testing, hard-code the address of DB now
+			identityController.setupDatabase();
+			
+			// Login : Make sure admin admin is in database
+			try {
+				identityController.getUserAuthority().login("admin", "admin");
+			} catch (NoAuthorityException e1) {
+				e1.printStackTrace();
 			}
-		};
-		return test;
+			
+			// DAO : get all patients
+			List<Patient> patients = null;
+			try {
+				patients = identityController.getPatientManagement().readAll();
+			} catch (NoAuthorityException e) {
+				e.printStackTrace();
+			}
+			
+			System.out.println("Fetched: " + patients.size() + " patients from the DB.");
+			
+			identityController.closeDataBase();
+		} catch (ConfigurationFileException | DaoInitializationException | DaoLoadObjectException e) {
+			Assert.fail(e.getMessage());
+		}
+			
 	}
 	
 	/**

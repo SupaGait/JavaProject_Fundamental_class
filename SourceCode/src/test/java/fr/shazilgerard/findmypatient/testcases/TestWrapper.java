@@ -3,6 +3,8 @@
  */
 package fr.shazilgerard.findmypatient.testcases;
 
+import org.junit.Assert;
+
 /**
  * Wrapper to test an implementation which can throw lots of exceptions
  * @author Gerard
@@ -22,7 +24,8 @@ public abstract class TestWrapper {
 		try {
 			test();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Assert.assertTrue(e.getMessage(), false);
+			//e.printStackTrace();
 		}
 	}
 
